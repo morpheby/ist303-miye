@@ -1,19 +1,23 @@
 language: python
-python:
-    - '3.5'
-os:
-    - linux
-    - osx
+matrix:
+    include:
+        - os: linux
+          python: 3.5
+        - os: osx
+          language: generic
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pip3 install virtualenv ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then . ENV/activate ; fi
 install:
     - pip install -r requirements.txt
 script:
-    - "if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/build-osx.sh    ; fi"
-    - "if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tools/build-linux.sh ; fi"
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/build-osx.sh    ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tools/build-linux.sh ; fi
 before_deploy:
-    - "tar -cvvjf ${TRAVIS_TAG}-${TRAVIS_OS_NAME}.tar.bz2 dist/*"
+    - tar -cvvjf ${TRAVIS_TAG}-${TRAVIS_OS_NAME}.tar.bz2 dist/*
 deploy:
     provider: releases
     api_key:
