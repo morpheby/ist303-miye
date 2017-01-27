@@ -49,7 +49,7 @@ build_script:
   - cmd: tools\build-win.cmd
   
 after_build:
-  - 7z a $(appveyor_build_version)-win.zip %APPVEYOR_BUILD_FOLDER%\dist\*
+  - 7z a %APPVEYOR_BUILD_VERSION%-win.zip %APPVEYOR_BUILD_FOLDER%\dist\*
 
 #---------------------------------#
 #       tests configuration       #
