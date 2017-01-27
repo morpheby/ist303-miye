@@ -1,0 +1,20 @@
+appdirs==1.4.0
+packaging==16.8
+PyInstaller==3.2.1
+pyparsing==2.1.10
+sip==4.19
+six==1.10.0
+
+# OS X
+
+pywebview[cocoa]==1.4; sys_platform == 'darwin'
+
+# Linux
+
+pywebview[gtk3]==1.4; sys_platform == 'linux'
+pywebview[qt5]==1.4; sys_platform == 'linux'
+
+# Windows 
+
+pywebview[winforms]==1.4; sys_platform == 'win32'
+pywebview[win32]==1.4; sys_platform == 'win32'

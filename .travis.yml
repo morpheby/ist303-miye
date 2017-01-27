@@ -1,0 +1,25 @@
+language: python
+python:
+    - '3.5'
+os:
+    - linux
+    - osx
+before_install:
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3 ; fi
+install:
+    - pip install -r requirements.txt
+script:
+    - "if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/build-osx.sh    ; fi"
+    - "if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tools/build-linux.sh ; fi"
+before_deploy:
+    - "tar -cvvjf ${TRAVIS_TAG}-${TRAVIS_OS_NAME}.tar.bz2 dist/*"
+deploy:
+    provider: releases
+    api_key:
+        secure: 0b3L1YlhHnJ6LWdf7BRMgCtXLjPU4+xxbyiawa5oS38q4owWvyXChfUze5tnK/Xm00jmEZ+dMdJ5xM7FiXEGOulwhEyTSylIUrbBPHoASe6kpSMk/sgs98i1tRJ/Ze4yMOk2mADB2HTHinn9w1BOYLDemNMAFzY51BJy6r9e45hZqFPkafTcYFj0KN4yYVBKTFcwFhelr7zo63Xzl51HhPfOzp92ugreInqfO95tOYQOxmdHE83WtxO7+vgMtKwXjM/+1Y97eZUJS89lAoOyxI6sCiEuoINQNJhomHtfu3qM6BJOiznZR95CLh7IFcBN3tEzxIeFz2fz5ZpS6WiAUwwaMMAO9aauu64X46+k2F1+RNwxkMGqTCJOkqDiHrLA6z7rK2sWmsR5SNxHzvR1L1Ytfd1bZJvBbfQHL6/KjhzZIyS1OpZ6PR9uxPxCxQpkY9f/chWiZenOUizF1LbHxjVpLmbvBKGh0ZJXgOtDJcAmxCYJtsYz9BbE4MUP6Nbe1gfYVPZ/WCWfroCrAmm5/7n0JpahgBkwHCISawWp/4Jmh6u+vqLt8c1Ik8Ubw4PoT2UxHxG7d7p4VbpaVjczVTd0IiBQ4quqESFh4XP3NdBALMPa2GlKvu5PU/e+5NzM0Rg5OXXYTRznhZUh0AYk2Wudxzc10QJeV75pzJBZ094=
+    file: "${TRAVIS_TAG}-${TRAVIS_OS_NAME}.tar.bz2"
+    skip_cleanup: true
+    on:
+        repo: morpheby/ist303-miye
+        tags: true

@@ -1,0 +1,89 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 0.1.{build}
+
+# you can use {branch} name in version format too
+# version: 1.0.{build}-{branch}
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+
+# Do not build on tags (GitHub and BitBucket)
+skip_tags: false
+
+# Skipping commits with particular message or from specific user
+skip_commits:
+  message: /\[ci-skip\]|\[skip-ci\]/      # Regex for matching commit message
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2015
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - set PATH=C:\Python35\bin
+  - git config --global core.autocrlf input
+
+# scripts that run after cloning repository
+install:
+  - pip install -r requirements.txt
+
+# to run your custom scripts instead of automatic MSBuild
+build_script:
+  - cmd: tools/build-win.cmd
+  
+after_build:
+  - 7z a $(appveyor_build_version)-win.zip %APPVEYOR_BUILD_FOLDER%\dist\*
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+# to run your custom scripts instead of automatic tests
+test_script:
+  - echo This is my custom test script
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+
+  # pushing entire folder as a zip archive
+  - path: $(appveyor_build_version)-win.zip
+    name: arch 
+    type: zip
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+# providers: Local, FTP, WebDeploy, AzureCS, AzureBlob, S3, NuGet, Environment
+# provider names are case-sensitive!
+deploy:
+
+    # Deploy to GitHub Releases
+  - provider: GitHub
+    draft: false
+    artifact: arch
+    auth_token:
+      secure: xvdRGkzOEuKTSJLfHoaIAa0ZyzykruHlt9CRMG5lNB06sHV+Sukbh7z0u5GP8Jeq
+    on:
+      branch: master                # release from master branch only
+      appveyor_repo_tag: true       # deploy on tag push only
