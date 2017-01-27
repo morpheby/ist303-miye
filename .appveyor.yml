@@ -35,9 +35,16 @@ skip_commits:
 # Build worker image (VM template)
 image: Visual Studio 2015
 
+environment:
+  matrix:
+    - OS_ARCH: x86
+      PY_VERSION: Python35
+    - OS_ARCH: x64
+      PY_VERSION: Python35-x64
+
 # scripts that are called at very beginning, before repo cloning
 init:
-  - set PATH=C:\Python35\bin;%PATH%
+  - set PATH=C:\%PY_VERSION%;%PATH%
   - git config --global core.autocrlf input
 
 # scripts that run after cloning repository
@@ -49,7 +56,7 @@ build_script:
   - cmd: tools\build-win.cmd
   
 after_build:
-  - 7z a %APPVEYOR_BUILD_VERSION%-win.zip %APPVEYOR_BUILD_FOLDER%\dist\*
+  - 7z a %APPVEYOR_BUILD_VERSION%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
 
 #---------------------------------#
 #       tests configuration       #
@@ -65,8 +72,7 @@ test_script:
 
 artifacts:
 
-  # pushing entire folder as a zip archive
-  - path: $(appveyor_build_version)-win.zip
+  - path: $(appveyor_build_version)-win-$(os_arch).zip
     name: arch 
     type: zip
 
