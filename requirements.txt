@@ -7,7 +7,6 @@ pywebview[cocoa]==1.4; sys_platform == 'darwin'
 
 # Linux
 
-pywebview[gtk3]==1.4; sys_platform == 'linux'
 pywebview[qt5]==1.4; sys_platform == 'linux'
 
 # Windows 
