@@ -48,20 +48,12 @@ init:
 
 # scripts that run after cloning repository
 install:
-  - set OLDPATH=%PATH%
-  - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk
-  - echo %PATH%
-  - dir C:\Python35
-  - dir C:\Python35\Scripts
+  - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
   - pip install -r requirements.txt
-  - set PATH=%OLDPATH%
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - set OLDPATH=%PATH%
-  - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk
   - tools\build-win.cmd
-  - set PATH=%OLDPATH%
   
 after_build:
   - 7z a %APPVEYOR_BUILD_VERSION%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
