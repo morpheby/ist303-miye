@@ -50,6 +50,9 @@ init:
 install:
   - set OLDPATH=%PATH%
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk
+  - echo %PATH%
+  - dir C:\Python35
+  - dir C:\Python35\Scripts
   - pip install -r requirements.txt
   - set PATH=%OLDPATH%
 
