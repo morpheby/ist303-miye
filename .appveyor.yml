@@ -44,16 +44,21 @@ environment:
 
 # scripts that are called at very beginning, before repo cloning
 init:
-  - set PATH=C:\%PY_VERSION%;%PATH%
   - git config --global core.autocrlf input
 
 # scripts that run after cloning repository
 install:
+  - set OLDPATH=%PATH%
+  - set PATH=C:\%PY_VERSION%
   - pip install -r requirements.txt
+  - set PATH=%OLDPATH%
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - cmd: tools\build-win.cmd
+  - set OLDPATH=%PATH%
+  - set PATH=C:\%PY_VERSION%
+  - tools\build-win.cmd
+  - set PATH=%OLDPATH%
   
 after_build:
   - 7z a %APPVEYOR_BUILD_VERSION%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
