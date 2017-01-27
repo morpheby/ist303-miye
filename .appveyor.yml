@@ -46,7 +46,7 @@ install:
 
 # to run your custom scripts instead of automatic MSBuild
 build_script:
-  - cmd: tools/build-win.cmd
+  - cmd: tools\build-win.cmd
   
 after_build:
   - 7z a $(appveyor_build_version)-win.zip %APPVEYOR_BUILD_FOLDER%\dist\*
