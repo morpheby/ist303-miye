@@ -9,10 +9,11 @@
 #---------------------------------#
 
 # version format
-version: 0.1.{build}
+version: 0
 
-# you can use {branch} name in version format too
-# version: 1.0.{build}-{branch}
+init:
+    - cmd: call tools\versionGen.cmd
+    - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
 
 # branches to build
 branches:
