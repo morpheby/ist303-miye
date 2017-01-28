@@ -45,7 +45,7 @@ init:
 
 # scripts that run after cloning repository
 install:
-  - cmd: call tools\appveyor-version.sh
+  - cmd: tools\appveyor-version.sh -s
   - cmd: call tools\gittag.cmd
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
   - pip install -r requirements.txt
@@ -100,7 +100,7 @@ deploy:
     subject: morpheby
     repo: $(APPVEYOR_PROJECT_NAME)
     package: $(APPVEYOR_PROJECT_NAME)
-    version: $(GIT_TAG)
+    version: $(VERSION_SHORT)
     publish: true
     override: true
     artifact: arch

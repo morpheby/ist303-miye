@@ -7,9 +7,9 @@ matrix:
           language: generic
 env:
     global:
-        - VERSION="$(. tools/versionGen.sh)"
+        - VERSION="$(. tools/versionGen.sh ${TRAVIS_BUILD_NUMBER})"
         - REPO_NAME="$(basename $(pwd))"
-        - GIT_TAG=$(git describe --abbrev=0)
+        - VERSION_SHORT=$(. tools/versionGen.sh -s)
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
@@ -22,8 +22,7 @@ script:
 before_deploy:
     - tar -cvvjf ${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2 dist/*
     - echo "PROJECT=${REPO_NAME}" > generated.properties
-    - echo "GITTAG=${GIT_TAG}" >> generated.properties
-    - echo "GITTAG=${GIT_TAG}" >> generated.properties
+    - echo "VERSIONSHORT=${VERSION_SHORT}" >> generated.properties
     - echo "FILENAME=${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" >> generated.properties
     - tools/gen-config.sh .bintray.json.in generated.properties .bintray.json -h
 deploy:
