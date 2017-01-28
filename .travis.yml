@@ -7,7 +7,7 @@ matrix:
           language: generic
 env:
     global:
-        - VERSION=`tools/versionGen.sh`
+        - VERSION=`. tools/versionGen.sh`
         - REPO_NAME=`basename $PWD`
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi

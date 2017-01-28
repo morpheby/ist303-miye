@@ -9,7 +9,7 @@
 #---------------------------------#
 
 # version format
-version: TMP-{build}
+version: BUILD-{build}
 
 # branches to build
 branches:
@@ -42,11 +42,11 @@ environment:
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
-  - cmd: call tools\versionGen.cmd
-  - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
 
 # scripts that run after cloning repository
 install:
+  - cmd: call tools\versionGen.cmd
+  - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
   - pip install -r requirements.txt
 
