@@ -5,8 +5,8 @@
 
 ## Installation ##
 
-Head over to [releases](https://github.com/morpheby/ist303-miye/releases) and download the latest
-version for your OS. No additional installations required.
+- [Release Versions](https://github.com/morpheby/ist303-miye/releases)
+- [Development Versions](https://bintray.com/morpheby/ist303-miye/ist303-miye/_latestVersion)
 
 ## Building ##
 
