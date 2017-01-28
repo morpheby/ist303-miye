@@ -18,7 +18,7 @@ RELEASE_VERSION=`git describe`
 
 if [[ x$1 == x"-s" ]]; then
     OMIT_BUILD=1
-elif [[ -z $1 ]]
+elif [[ -z $1 ]]; then
     BUILD=${GIT_TOTAL_COMMIT_COUNT}
 else
     BUILD=$1
