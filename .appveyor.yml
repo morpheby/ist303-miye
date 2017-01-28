@@ -9,7 +9,7 @@
 #---------------------------------#
 
 # version format
-version: $(APPVEYOR_REPO_TAG_NAME).{build}
+version: 0.1.{build}
 
 # you can use {branch} name in version format too
 # version: 1.0.{build}-{branch}
