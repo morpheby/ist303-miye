@@ -28,4 +28,3 @@ deploy:
     skip_cleanup: true
     on:
         repo: morpheby/ist303-miye
-        tags: true
