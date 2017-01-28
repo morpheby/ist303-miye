@@ -7,8 +7,8 @@ matrix:
           language: generic
 env:
     global:
-        - VERSION=`. tools/versionGen.sh`
-        - REPO_NAME=`basename $PWD`
+        - VERSION="$(. tools/versionGen.sh)"
+        - REPO_NAME="$(basename $(pwd))"
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
