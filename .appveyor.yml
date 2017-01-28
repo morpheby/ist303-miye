@@ -38,8 +38,7 @@ init:
 
 # scripts that run after cloning repository
 install:
-  - cmd: tools\appveyor-version.sh -s
-  - cmd: call tools\gittag.cmd
+  - cmd: sh tools\appveyor-version.sh
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
   - pip install -r requirements.txt
 
@@ -96,5 +95,3 @@ deploy:
     publish: true
     override: true
     artifact: arch
-    on:
-      branch: master
