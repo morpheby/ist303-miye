@@ -27,6 +27,6 @@ fi
 if [[ ${GIT_COMMIT_COUNT} == 0 || ${OMIT_BUILD} == 1 ]]; then
     echo "${GIT_TAG}.${GIT_COMMIT_COUNT}"
 else
-    echo "${GIT_TAG}.${GIT_COMMIT_COUNT}(${BUILD})"
+    echo "${GIT_TAG}.${GIT_COMMIT_COUNT}_${BUILD}"
 fi
 
