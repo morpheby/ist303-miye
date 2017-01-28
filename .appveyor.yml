@@ -88,8 +88,9 @@ deploy:
   - provider: GitHub
     draft: false
     artifact: arch
+    force_update: true 
     auth_token:
       secure: xvdRGkzOEuKTSJLfHoaIAa0ZyzykruHlt9CRMG5lNB06sHV+Sukbh7z0u5GP8Jeq
     on:
       branch: master                # release from master branch only
-      appveyor_repo_tag: true       # deploy on tag push only
+      appveyor_repo_tag: false
