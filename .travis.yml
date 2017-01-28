@@ -6,7 +6,8 @@ matrix:
         - os: osx
           language: generic
 env:
-    - VERSION=${TRAVIS_TAG}.${TRAVIS_BUILD_NUMBER}
+    global:
+        - VERSION=${TRAVIS_TAG}.${TRAVIS_BUILD_NUMBER}
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
