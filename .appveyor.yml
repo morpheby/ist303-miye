@@ -55,7 +55,7 @@ build_script:
   - tools\build-win.cmd
   
 after_build:
-  - 7z a %APPVEYOR_BUILD_VERSION%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
+  - 7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
 
 #---------------------------------#
 #       tests configuration       #
@@ -71,7 +71,7 @@ test_script:
 
 artifacts:
 
-  - path: $(appveyor_build_version)-win-$(os_arch).zip
+  - path: $(appveyor_project_name)-$(appveyor_build_version)-win-$(os_arch).zip
     name: arch 
     type: zip
 
