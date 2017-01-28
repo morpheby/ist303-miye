@@ -9,6 +9,7 @@ env:
     global:
         - VERSION="$(. tools/versionGen.sh)"
         - REPO_NAME="$(basename $(pwd))"
+        - GIT_TAG=$(git describe --abbrev=0)
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
@@ -20,11 +21,26 @@ script:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tools/build-linux.sh ; fi
 before_deploy:
     - tar -cvvjf ${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2 dist/*
+    - echo "PROJECT=${REPO_NAME}" > generated.properties
+    - echo "GITTAG=${GIT_TAG}" >> generated.properties
+    - echo "GITTAG=${GIT_TAG}" >> generated.properties
+    - echo "FILENAME=${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" >> generated.properties
+    - tools/gen-config.sh .bintray.json.in generated.properties .bintray.json -h
 deploy:
-    provider: releases
-    api_key:
+    - provider: releases
+      api_key:
         secure: 0b3L1YlhHnJ6LWdf7BRMgCtXLjPU4+xxbyiawa5oS38q4owWvyXChfUze5tnK/Xm00jmEZ+dMdJ5xM7FiXEGOulwhEyTSylIUrbBPHoASe6kpSMk/sgs98i1tRJ/Ze4yMOk2mADB2HTHinn9w1BOYLDemNMAFzY51BJy6r9e45hZqFPkafTcYFj0KN4yYVBKTFcwFhelr7zo63Xzl51HhPfOzp92ugreInqfO95tOYQOxmdHE83WtxO7+vgMtKwXjM/+1Y97eZUJS89lAoOyxI6sCiEuoINQNJhomHtfu3qM6BJOiznZR95CLh7IFcBN3tEzxIeFz2fz5ZpS6WiAUwwaMMAO9aauu64X46+k2F1+RNwxkMGqTCJOkqDiHrLA6z7rK2sWmsR5SNxHzvR1L1Ytfd1bZJvBbfQHL6/KjhzZIyS1OpZ6PR9uxPxCxQpkY9f/chWiZenOUizF1LbHxjVpLmbvBKGh0ZJXgOtDJcAmxCYJtsYz9BbE4MUP6Nbe1gfYVPZ/WCWfroCrAmm5/7n0JpahgBkwHCISawWp/4Jmh6u+vqLt8c1Ik8Ubw4PoT2UxHxG7d7p4VbpaVjczVTd0IiBQ4quqESFh4XP3NdBALMPa2GlKvu5PU/e+5NzM0Rg5OXXYTRznhZUh0AYk2Wudxzc10QJeV75pzJBZ094=
-    file: "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2"
-    skip_cleanup: true
-    on:
+      file: "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2"
+      overwrite: true
+      skip_cleanup: true
+      on:
         repo: morpheby/ist303-miye
+        tags: true
+    - provider: bintray
+      file: .bintray.json
+      user: morpheby
+      key:
+        secure: "pTVphDDwXtLU8UJUM9rehBcXMsB54OM+F6NMwhMaPFVWCU1d9pwH3Bp6h4o9o3b9nwehAbV5HKNDakxhKjTMj4IhpE6G11A7QJc4gQXuxRDGm4OH9Zh8fiekhXQZOSz/TdvnHlT8z+ge6dJXWr4w/a5fIPJbthyLIVc/D+1Vp4JVQG7xUUtMHpDo2iD9xPiMPQQfvqEpxuHtmkwK/WStIYkIJ5hi4MCvuk44/ozYHFYEtAr5qAU/EEejPNEQNC4xGkC2olEu46RT9BjjcBD5ieFnbmfn9wfsNcSoUHbnMt+HEEk8TDXsp+POPeOIE6RPkaKzwWVVBrShLRTTKYEBOb2/BTbewFHatgl6cDVQuqDoekNeBl1fGiog7kbAyrJd1Xgs8W4CxFmOqzfsukpJAsrPnqsMM6WrHWWasUGBIO42i66o6DTxZEsOHNu86iEbQ7monGRBi4fOTj3i8mqCEKoqkulO/eUDM/slai5qjAHNvNdbDafmlb9wN3Byoj1GXn4GuuCjfsDNRTbDlSv7k+R4joNFNnG8asNDm4z6i89HPUh4owNgTZinWqbrKMVWAdhm42hkbhSa/VBxOZecc482xNMgjtJkL+CT5MnTetiXNaJF3j3UhOhKKhD1ABfST/ajXZABWOtXaA+0Jub/3UrEBa2Rzafr7JjW5x2T4bM="
+      on:
+          repo: morpheby/ist303-miye
+          branch: master

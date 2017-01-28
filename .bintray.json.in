@@ -1,0 +1,17 @@
+{
+    "package": {
+        "name": "@PROJECT@",
+        "repo": "@PROJECT@",
+        "subject": "morpheby"
+    },
+
+    "version": {
+        "name": "@GITTAG@"
+    },
+
+    "files":
+        [
+        { "includePattern": "(@FILENAME@)", "uploadPattern": "$1", "matrixParams": {"override": 1} }
+        ],
+    "publish": true
+}
