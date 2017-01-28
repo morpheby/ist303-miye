@@ -23,6 +23,7 @@ before_deploy:
     - tar -cvvjf ${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2 dist/*
     - echo "PROJECT=${REPO_NAME}" > generated.properties
     - echo "VERSIONSHORT=${VERSION_SHORT}" >> generated.properties
+    - echo "FILENAME=$(printf "%q\n" "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" | sed -E 's/\\/\\\\/g')" >> generated.properties
     - tools/gen-config.sh .bintray.json.in generated.properties .bintray.json -h
 deploy:
     - provider: releases
