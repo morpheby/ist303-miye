@@ -9,7 +9,7 @@
 #---------------------------------#
 
 # version format
-version: {build}
+version: TMP-{build}
 
 # branches to build
 branches:
