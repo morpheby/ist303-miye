@@ -1,6 +1,15 @@
 #!/bin/sh
 
-appveyor UpdateBuild -Version $(. tools/versionGen.sh ${APPVEYOR_BUILD_NUMBER})
-appveyor UpdateBuild -Name VERSION_FULL -Value  $(. tools/versionGen.sh ${APPVEYOR_BUILD_NUMBER})
-appveyor SetVariable -Name GIT_TAG -Value $(git describe --abbrev=0)
-appveyor SetVariable -Name VERSION_SHORT -Value $(. tools/versionGen.sh -s)
+VERSION_FULL=$(. tools/versionGen.sh ${APPVEYOR_BUILD_NUMBER})
+echo "VERSION_FULL=$VERSION_FULL"
+
+VERSION_SHORT=$(. tools/versionGen.sh -s)
+echo "VERSION_SHORT=$VERSION_SHORT"
+
+GIT_TAG=$(git describe --abbrev=0)
+echo "GIT_TAG=$GIT_TAG"
+
+appveyor UpdateBuild -Version "$VERSION_FULL"
+appveyor UpdateBuild -Name VERSION_FULL -Value "$VERSION_FULL"
+appveyor SetVariable -Name GIT_TAG -Value "$GIT_TAG"
+appveyor SetVariable -Name VERSION_SHORT -Value "$VERSION_SHORT"
