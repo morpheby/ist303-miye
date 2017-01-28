@@ -16,7 +16,7 @@ skip_tags: false
 
 # Skipping commits with particular message or from specific user
 skip_commits:
-  message: /\[ci-skip\]|\[skip-ci\]/      # Regex for matching commit message
+  message: /\[ci skip\]|\[skip ci\]/      # Regex for matching commit message
 
 #---------------------------------#
 #    environment configuration    #
