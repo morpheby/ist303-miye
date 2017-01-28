@@ -10,6 +10,6 @@ GIT_TAG=$(git describe --abbrev=0)
 echo "GIT_TAG=$GIT_TAG"
 
 appveyor UpdateBuild -Version "$VERSION_FULL"
-appveyor UpdateBuild -Name VERSION_FULL -Value "$VERSION_FULL"
+appveyor SetVariable -Name VERSION_FULL -Value "$VERSION_FULL"
 appveyor SetVariable -Name GIT_TAG -Value "$GIT_TAG"
 appveyor SetVariable -Name VERSION_SHORT -Value "$VERSION_SHORT"
