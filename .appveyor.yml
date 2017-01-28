@@ -45,8 +45,7 @@ init:
 
 # scripts that run after cloning repository
 install:
-  - cmd: call tools\versionGen.cmd
-  - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
+  - cmd: call tools\appveyor-version.sh
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
   - pip install -r requirements.txt
 
