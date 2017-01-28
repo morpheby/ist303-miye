@@ -9,11 +9,7 @@
 #---------------------------------#
 
 # version format
-version: 0
-
-init:
-    - cmd: call tools\versionGen.cmd
-    - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
+version: {build}
 
 # branches to build
 branches:
@@ -46,6 +42,8 @@ environment:
 # scripts that are called at very beginning, before repo cloning
 init:
   - git config --global core.autocrlf input
+  - cmd: call tools\versionGen.cmd
+  - cmd: appveyor UpdateBuild -Version "%CUSTOM_VERSION%"
 
 # scripts that run after cloning repository
 install:
