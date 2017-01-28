@@ -38,6 +38,7 @@ deploy:
     - provider: bintray
       file: .bintray.json
       user: morpheby
+      skip_cleanup: true
       key:
         secure: "pTVphDDwXtLU8UJUM9rehBcXMsB54OM+F6NMwhMaPFVWCU1d9pwH3Bp6h4o9o3b9nwehAbV5HKNDakxhKjTMj4IhpE6G11A7QJc4gQXuxRDGm4OH9Zh8fiekhXQZOSz/TdvnHlT8z+ge6dJXWr4w/a5fIPJbthyLIVc/D+1Vp4JVQG7xUUtMHpDo2iD9xPiMPQQfvqEpxuHtmkwK/WStIYkIJ5hi4MCvuk44/ozYHFYEtAr5qAU/EEejPNEQNC4xGkC2olEu46RT9BjjcBD5ieFnbmfn9wfsNcSoUHbnMt+HEEk8TDXsp+POPeOIE6RPkaKzwWVVBrShLRTTKYEBOb2/BTbewFHatgl6cDVQuqDoekNeBl1fGiog7kbAyrJd1Xgs8W4CxFmOqzfsukpJAsrPnqsMM6WrHWWasUGBIO42i66o6DTxZEsOHNu86iEbQ7monGRBi4fOTj3i8mqCEKoqkulO/eUDM/slai5qjAHNvNdbDafmlb9wN3Byoj1GXn4GuuCjfsDNRTbDlSv7k+R4joNFNnG8asNDm4z6i89HPUh4owNgTZinWqbrKMVWAdhm42hkbhSa/VBxOZecc482xNMgjtJkL+CT5MnTetiXNaJF3j3UhOhKKhD1ABfST/ajXZABWOtXaA+0Jub/3UrEBa2Rzafr7JjW5x2T4bM="
       on:
