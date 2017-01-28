@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 ### Script settings ###
 
@@ -8,7 +8,7 @@ properties_script=
 
 ### Function: cleanup ###
 # Synopsis: Removes temporary files
-function cleanup {
+function cleanup () {
     if [ -n ${properties_script} ]; then
         rm -f ${properties_script}
     fi
@@ -16,7 +16,7 @@ function cleanup {
 
 ### Function: build_error ###
 # Synopsis: Reports error to stderr and exits script
-function build_error {
+function build_error() {
     echo "$0: Error: $1" >&2
     cleanup
     exit 1
@@ -51,7 +51,7 @@ fi
 ### Function: prepare_settings ###
 # Synopsis: Reads configuration files and transforms them into a sed script to apply
 # Input: settings_file_name output_file
-function prepare_settings {
+function prepare_settings() {
     if [ $# -lt 2 ]; then
         build_error "Wrong use of function prepare_settings - no arguments supplied"
     fi
