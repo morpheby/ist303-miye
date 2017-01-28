@@ -18,13 +18,17 @@ RELEASE_VERSION=`git describe`
 
 if [[ x$1 == x"-s" ]]; then
     OMIT_BUILD=1
-elif [[ -z $1 ]]; then
+elif [[ x$2 == x"-v" ]]; then
+    OMIT_BUILD=0
+fi
+
+if [[ -z $1 ]]; then
     BUILD=${GIT_TOTAL_COMMIT_COUNT}
 else
     BUILD=$1
 fi
 
-if [[ ${GIT_COMMIT_COUNT} == 0 || ${OMIT_BUILD} == 1 ]]; then
+if [[ ( $OMIT_BUILD != 0  && ${GIT_COMMIT_COUNT} == 0 ) || ${OMIT_BUILD} == 1 ]]; then
     echo "${GIT_TAG}.${GIT_COMMIT_COUNT}"
 else
     echo "${GIT_TAG}.${GIT_COMMIT_COUNT}_${BUILD}"
