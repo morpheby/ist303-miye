@@ -16,13 +16,13 @@ If you prefer to build it yourself or need to package it, follow these instructi
 
 - Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
 - Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools/build-win.cmd`
+- To build a distributable version, run `tools\build-win.cmd`; it will be placed in `dist\`.
 
 ### Linux ###
 
 - Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
 - Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools/build-linux.cmd`
+- To build a distributable version, run `tools/build-linux.cmd`; it will be placed in `dist/`.
 
 ### macOS ###
 
@@ -31,5 +31,5 @@ If you prefer to build it yourself or need to package it, follow these instructi
     *  Run `ENV/bin/activate`
 - If would prefer to manage your software yourself and not use Homebrew, you will need python 3.5.x (ensure that the main binary is `python`, not `python3`)
 - Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools/build-osx.cmd`
+- To build a distributable version, run `tools/build-osx.cmd`; it will be placed in `dist/`.
 
