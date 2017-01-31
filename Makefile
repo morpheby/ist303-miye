@@ -5,6 +5,12 @@ DISTDIR = dist
 
 DIST_TARGET = $(DISTDIR)/miye
 
+PYTHON_INPUT = main.py
+
+NAME = miye
+
+PYI_FLAGS = --name="$(NAME)" -w 
+
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
 endif
@@ -21,9 +27,24 @@ requirements.log: requirements.txt
 .COMPLETED:
 	touch $@
 	
-$(DIST_TARGET): main.py */*.py
+$(NAME).spec: $(PYTHON_INPUT) */*.py
+	pyi-makespec $(PYI_FLAGS) $(PYTHON_INPUT)
+	mv $(NAME).spec $(NAME).spec-tmp
+	sed -E -e 's/BUNDLE\(([^()]+)/BUNDLE(\1\
+		info_plist={\
+			"NSHighResolutionCapable": "True",\
+			"NSPrincipalClass": "NSApplication",\
+			"NSHighResolutionMagnifyAllowed": "False"\
+		},/' \
+	 < $(NAME).spec-tmp > $(NAME).spec-new && \
+	 mv $(NAME).spec-new $(NAME).spec && \
+	 rm $(NAME).spec-tmp || \
+	 rm $(NAME).spec-tmp $(NAME).spec-new $(NAME).spec
+	 test -f $(NAME).spec
+	
+$(DIST_TARGET): $(NAME).spec $(PYTHON_INPUT) */*.py
 	rm -rf $(DIST_TARGET) # All dirs need to be removed
-	pyinstaller --name="miye" -w main.py
+	pyinstaller $(PYI_FLAGS) $(NAME).spec
 
 $(DISTDIR)/.COMPLETED: $(DIST_TARGET)
 
