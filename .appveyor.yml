@@ -39,7 +39,11 @@ init:
 # scripts that run after cloning repository
 install:
   - cmd: sh tools\appveyor-version.sh
+  # Import Python
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
+  # Import MinGW
+  - set PATH=C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin;%PATH%
+  - set PATH=C:\msys64;%PATH%
   - make prereq
 
 # to run your custom scripts instead of automatic MSBuild
