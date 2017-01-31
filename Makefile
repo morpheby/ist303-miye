@@ -1,15 +1,19 @@
 
 include tools/os_detect.mk
 
-requirements.log: requirements.txt
-	pip install -r requirements.txt > $@
+.PHONY: clean distclean
 
-init: requirements.log
-	
 DISTDIR = dist
 
 DIST_TARGET = $(DISTDIR)/miye
-
+	
+all: prereq
+	
+prereq: requirements.log
+	
+requirements.log: requirements.txt
+	pip install -r requirements.txt > $@
+	
 ifeq ($(TARGET_OS),Darwin)
 	DIST_TARGET += $(DISTDIR)/miye.app
 endif
@@ -18,11 +22,9 @@ $(DIST_TARGET): main.py */*.py
 	rm -rf $(DIST_TARGET) # All dirs need to be removed
 	pyinstaller --name="miye" -w main.py
 
-dist: init $(DIST_TARGET)
+dist: all $(DIST_TARGET)
 
-all: clean dist
-	
-test:
+test: all
 	
 clean:
 	rm -rf $(DIST_TARGET) build/

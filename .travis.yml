@@ -14,11 +14,9 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then . ENV/bin/activate ; fi
+    - make prereq
 install:
-    - pip install -r requirements.txt
-script:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/build-osx.sh    ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./tools/build-linux.sh ; fi
+    - make dist
 before_deploy:
     - tar -cvvjf "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" dist/*
     - echo "PROJECT=${REPO_NAME}" > generated.properties
