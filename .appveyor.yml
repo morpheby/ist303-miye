@@ -41,11 +41,8 @@ install:
   - cmd: sh tools\appveyor-version.sh
   # Import Python
   - set PATH=C:\%PY_VERSION%;C:\%PY_VERSION%\Scripts;C:\%PY_VERSION%\Lib;C:\%PY_VERSION%\DLLs;C:\%PY_VERSION%\Lib\lib-tk;%PATH%
-  # Import MinGW
-  - set PATH=C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin;%PATH%
-  - set PATH=C:\msys64;%PATH%
-  - pacman -Sy pacman
-  - pacman -Sy make
+  # Import MSYS2
+  - set PATH=C:\msys64\usr\bin;%PATH%
   - make prereq
 
 # to run your custom scripts instead of automatic MSBuild
@@ -72,9 +69,6 @@ artifacts:
   - path: $(appveyor_project_name)-$(version_full)-win-$(os_arch).zip
     name: arch 
     type: file
-    
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   
 #---------------------------------#
 #     deployment configuration    #
