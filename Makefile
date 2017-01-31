@@ -22,6 +22,8 @@ dist: init $(DIST_TARGET)
 
 all: clean dist
 	
+test:
+	
 clean:
 	rm -rf $(DIST_TARGET) build/
 	
