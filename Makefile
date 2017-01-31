@@ -29,5 +29,8 @@ test: all
 clean:
 	rm -rf $(DIST_TARGET) build/
 	
-distclean:
-	rm -rf `find . -name __pycache__` *.log build/ $(DIST_TARGET) *.spec
+clean_pycache:
+	rm -rf `find . -name __pycache__` `find . -name "*.pyc"`
+	
+distclean: clean clean_pycache
+	rm -rf *.log *.spec
