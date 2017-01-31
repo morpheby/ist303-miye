@@ -18,8 +18,7 @@ If you prefer to build it yourself or need to package it, follow these instructi
 
 ### Windows notes ###
 
-- You will need GNU Make for the build (included in [MinGW](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/))
-  -  Link to automated installer: [MinGW-W64-install.exe](https://sf.net/p/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download)
+- You will need GNU Make for the build (included in [MSYS](http://msys2.github.io))
 
 ### macOS notes ###
 

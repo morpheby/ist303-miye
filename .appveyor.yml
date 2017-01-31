@@ -72,7 +72,10 @@ artifacts:
   - path: $(appveyor_project_name)-$(version_full)-win-$(os_arch).zip
     name: arch 
     type: file
-
+    
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  
 #---------------------------------#
 #     deployment configuration    #
 #---------------------------------#
