@@ -10,26 +10,23 @@
 
 ## Building ##
 
-If you prefer to build it yourself or need to package it, follow these instructions.
-
-### Windows ###
+If you prefer to build it yourself or need to package it, follow these instructions:
 
 - Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
-- Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools\build-win.cmd`; it will be placed in `dist\`.
+- Run `make`
+- To build a distributable version, run `make dist`. It will be placed in `dist/`.
 
-### Linux ###
+### Windows notes ###
 
-- Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
-- Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools/build-linux.cmd`; it will be placed in `dist/`.
+- You will need GNU Make for the build (included in [MinGW](https://sourceforge.net/projects/mingwbuilds/))
 
-### macOS ###
+### macOS notes ###
 
-- If you are using [Homebrew](http://brew.sh):
-    *  Run `tools/homebrew-install-python35.sh`
-    *  Run `ENV/bin/activate`
-- If would prefer to manage your software yourself and not use Homebrew, you will need python 3.5.x (ensure that the main binary is `python`, not `python3`)
-- Run `pip install -r requirements.txt`
-- To build a distributable version, run `tools/build-osx.cmd`; it will be placed in `dist/`.
+To install Python 3.5 and virtualenv through [Homebrew](http://brew.sh):
+
+- Run `tools/homebrew-install-python35.sh`
+
+A virtualenv will then be created in the ENV directory. To use it:
+
+- Run `ENV/bin/activate`
 
