@@ -30,4 +30,4 @@ def webview_start(baseUrl, width=800, height=600,
         import AppKit
         import objc
         AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
-    webview.create_window("123", baseUrl)
+    webview.create_window(config.APP_NAME, baseUrl)
