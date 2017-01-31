@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 """
- main.py
+ cwebview.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -19,8 +17,17 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 
+import webview
 import config
-import client
 
-client.webview_start("http://www.google.com")
+import sys
+        
+def webview_start(baseUrl, width=800, height=600,
+                  resizable=True, fullscreen=False, min_size=(200, 100), strings={}):
 
+    if sys.platform == 'darwin':
+        # Fix for window not becoming topmost
+        import AppKit
+        import objc
+        AppKit.NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+    webview.create_window("123", baseUrl)

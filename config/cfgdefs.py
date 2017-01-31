@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 """
- main.py
+ cfgdefs.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -18,9 +16,4 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA 
 """
 
-
-import config
-import client
-
-client.webview_start("http://www.google.com")
-
+APP_NAME = 'Mud in Your Eye CRM'
