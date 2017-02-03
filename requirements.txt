@@ -5,6 +5,8 @@ pyramid==1.8.1
 
 waitress==1.0.1
 
+git+https://github.com/morpheby/venusian.git@compiled_support
+
 # OS X
 
 pywebview[cocoa]==1.4; sys_platform == 'darwin'

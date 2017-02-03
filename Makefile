@@ -23,11 +23,19 @@ DIST_TARGET = $(DISTDIR)/miye
 
 PYTHON_INPUT = main.py
 
+ADDITIONAL_PY_IMPORTS = views support
+
 DATA_FILES = 
 
 NAME = miye
 
-PYI_FLAGS = --name="$(NAME)" -w 
+PYI_FLAGS = --name="$(NAME)" -w
+PYI_SPEC_FLAGS = $(PYI_FLAGS) \
+  $(foreach import,$(ADDITIONAL_PY_IMPORTS),--hidden-import "$(import)")
+
+ifdef DEBUG
+	PYI_FLAGS += -d
+endif
 
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
@@ -46,7 +54,7 @@ requirements.log: requirements.txt
 	touch $@
 	
 $(NAME).spec: $(PYTHON_INPUT) */*.py
-	pyi-makespec $(PYI_FLAGS) $(PYTHON_INPUT)
+	pyi-makespec $(PYI_SPEC_FLAGS) $(PYTHON_INPUT)
 	mv $(NAME).spec $(NAME).spec-tmp
 	sed -E -e 's/BUNDLE\(([^()]+)/BUNDLE(\1\
 		info_plist={\
@@ -90,9 +98,10 @@ clean_target:
 	
 clean: clean_target
 	rm -f $(DISTDIR)/.COMPLETED
+	rm -f $(NAME).spec
 	
 clean_pycache:
 	rm -rf `find . -name __pycache__` `find . -name "*.pyc"`
 	
 distclean: clean clean_pycache
-	rm -rf *.log *.spec
+	rm -rf *.log *.spec $(DISTDIR)
