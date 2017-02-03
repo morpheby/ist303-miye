@@ -22,5 +22,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 import config
 import client
 
-client.webview_start("http://www.google.com")
+
+def main():
+    client.webview_start("http://www.google.com")
+
+if __name__ == '__main__':
+    main()
+
 
