@@ -25,6 +25,8 @@ from waitress import serve
 from pyramid.config import Configurator
 import threading as t
 from support.events import GracefulShutdown
+import views
+import support.pyinstaller_hack
 
 def create_app_config():
     """
@@ -32,7 +34,7 @@ def create_app_config():
     """
     config = Configurator()
     config.add_route('home', '/')
-    config.scan('views')
+    config.scan(views)
     
     return config
 
@@ -106,8 +108,7 @@ class Server(object):
 
 def start_client(host, port):
     client.webview_start("http://%s:%d/" % (host, port))
-
-
+    
 if __name__ == '__main__':
     
     server_host = '127.0.0.1'
