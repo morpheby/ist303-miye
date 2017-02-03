@@ -15,6 +15,9 @@ If you prefer to build it yourself or need to package it, follow these instructi
 - Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
 - Run `make`
 - To build a distributable version, run `make dist`. It will be placed in `dist/`.
+- To provide some debug info during execution, add flag `DEBUG` to make invocation (i.e. `make DEBUG=1 dist`)
+- To start the server in standalone mode (without the client window), run `make run`. Browser window shall open.
+  * To stop, press Ctrl-C
 
 ### Windows notes ###
 
