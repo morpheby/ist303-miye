@@ -98,3 +98,18 @@ deploy:
     publish: true
     override: true
     artifact: arch
+    on:
+      branch: master
+  - provider: BinTray
+    username: morpheby
+    api_key:
+        secure: lvUYiNDVXSjrdgZ17EMSG5o3bOwQ194HxOkiLrOAmYnTi+tuUcV3TYafwiSTQAPx
+    subject: morpheby
+    repo: $(APPVEYOR_PROJECT_NAME)
+    package: $(APPVEYOR_PROJECT_NAME)
+    version: $(VERSION_SHORT)
+    publish: true
+    override: true
+    artifact: arch
+    on:
+      appveyor_repo_tag: true
