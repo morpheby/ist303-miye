@@ -23,6 +23,8 @@ DIST_TARGET = $(DISTDIR)/miye
 
 PYTHON_INPUT = main.py
 
+DATA_FILES = 
+
 NAME = miye
 
 PYI_FLAGS = --name="$(NAME)" -w 
@@ -63,6 +65,7 @@ $(DIST_TARGET): $(NAME).spec $(PYTHON_INPUT) */*.py
 	pyinstaller $(PYI_FLAGS) $(NAME).spec
 
 $(DISTDIR)/.COMPLETED: $(DIST_TARGET)
+	touch $(DISTDIR)/.COMPLETED
 
 dist: all $(DISTDIR)/.COMPLETED
 
@@ -86,7 +89,7 @@ clean_target:
 	rm -rf $(DIST_TARGET) build/
 	
 clean: clean_target
-	$(DISTDIR)/.COMPLETED
+	rm -f $(DISTDIR)/.COMPLETED
 	
 clean_pycache:
 	rm -rf `find . -name __pycache__` `find . -name "*.pyc"`
