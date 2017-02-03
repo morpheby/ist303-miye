@@ -67,6 +67,20 @@ $(DISTDIR)/.COMPLETED: $(DIST_TARGET)
 dist: all $(DISTDIR)/.COMPLETED
 
 test: all
+
+run_real:
+	-waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
+
+run: all
+	(																 \
+		sleep 5														;\
+		if [[ $(TARGET_OS) == Darwin ]] ; then	 					 \
+			open "http://127.0.0.1:8041"							;\
+		elif [[ $(TARGET_OS) == win32 ]] ; then	 					 \
+			start "http://127.0.0.1:8041"							;\
+		fi															;\
+	) &
+	-$(MAKE) run_real
 	
 clean_target:
 	rm -rf $(DIST_TARGET) build/

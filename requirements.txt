@@ -3,6 +3,8 @@ PyInstaller==3.2.1
 
 pyramid==1.8.1
 
+waitress==1.0.1
+
 # OS X
 
 pywebview[cocoa]==1.4; sys_platform == 'darwin'
