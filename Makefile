@@ -80,7 +80,7 @@ dist: all $(DISTDIR)/.COMPLETED
 test: all
 
 run_real:
-	-waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
+	-PYRAMID_RELOAD_TEMPLATES=1 waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
 
 run: all
 	(																 \
