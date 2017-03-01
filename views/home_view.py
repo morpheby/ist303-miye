@@ -31,7 +31,7 @@ class HomeView(object):
         self._request = request
         
     def __call__(self):
-        return Response("Hello!")
+        return Response("Hello from David!")
         
 @subscriber(GracefulShutdown)
 def shutdown(event):
