@@ -21,11 +21,13 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 
 import config
 import client
+import assets
+import controllers
+import support
 from waitress import serve
 from pyramid.config import Configurator
 import threading as t
 from support.events import GracefulShutdown
-import views
 import support.pyinstaller_hack
 
 def create_app_config():
@@ -33,8 +35,17 @@ def create_app_config():
     Creates Pyramid config
     """
     config = Configurator()
+    
+    config.include('pyramid_chameleon')
+    
+    config.add_static_view(name='/css', path='assets:static/css')
+    config.add_static_view(name='/scripts', path='assets:static/scripts')
+    config.add_static_view(name='/fonts', path='assets:static/fonts')
+
     config.add_route('home', '/')
-    config.scan(views)
+    config.add_route('reservation', '/reservation')
+    
+    config.scan(controllers)
     
     return config
 

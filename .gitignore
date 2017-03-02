@@ -91,3 +91,7 @@ ENV/
 .COMPLETED
 
 .DS_Store
+
+# Chameleon caches
+*.pt.py
+*.txt.py

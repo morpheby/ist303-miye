@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title metal:define-slot="title"
+         tal:content="context/title | python:None"> Title goes here </title>
+    <meta tal:attributes="description context/description | python:None">
+    <script src="scripts/webfont.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            custom: {
+              families: ['Lato', 'Open Sans', 'PT Mono'],
+              urls: ['/css/lato.css', '/css/open-sans.css', '/css/pt-mono.css']
+            }
+         });
+    </script>
+    <link rel="stylesheet" href="/css/base.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/master.css" type="text/css" media="all"/>
+    <metal:slot metal:define-slot="script" />
+    <metal:slot metal:define-slot="css" />
+</head>
+<body id="main">
+    <div id="content">
+        <metal:slot metal:define-slot="content" />
+    </div>
+    <div id="footer">
+        <metal:main use-macro="load: footer.pt">
+    </div>
+</body>
+</html>

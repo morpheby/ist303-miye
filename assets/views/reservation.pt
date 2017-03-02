@@ -1,0 +1,9 @@
+<metal:main use-macro="master">
+    <metal:slot fill-slot="title">
+        <title>Reservation</title>
+    </metal:slot>
+    <metal:slot fill-slot="content">
+        <h1 id="title_1">Title 1</h1>
+        <p>Hello there! This is a test</p>
+    </metal:slot>
+</metal:main>

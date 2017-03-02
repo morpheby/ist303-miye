@@ -30,11 +30,13 @@ DATA_FILES =
 NAME = miye
 
 PYI_FLAGS = --name="$(NAME)" -w
+ENV=
 PYI_SPEC_FLAGS = $(PYI_FLAGS) \
   $(foreach import,$(ADDITIONAL_PY_IMPORTS),--hidden-import "$(import)")
 
 ifdef DEBUG
 	PYI_FLAGS += -d
+	ENV += PYRAMID_DEBUG_TEMPLATES=1
 endif
 
 ifeq ($(TARGET_OS),Darwin)
@@ -80,7 +82,7 @@ dist: all $(DISTDIR)/.COMPLETED
 test: all
 
 run_real:
-	-PYRAMID_RELOAD_TEMPLATES=1 waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
+	-${ENV} PYRAMID_RELOAD_TEMPLATES=1 waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
 
 run: all
 	(																 \

@@ -1,5 +1,5 @@
 """
- home_view.py
+ reservation_view.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -20,19 +20,23 @@ import cgi
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
+from pyramid.renderers import render_to_response
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
 
-@view_config(route_name='home')
-class HomeView(object):
+@view_config(route_name='reservation')
+class ReservationView(object):
     
     def __init__(self, request):
         self._request = request
         
     def __call__(self):
-        return Response("Hello from David and Eli!")
+        data = {}
+        
+        return render_to_response('assets:views/reservation.pt', data,
+            request=self._request)
         
 @subscriber(GracefulShutdown)
 def shutdown(event):
-    print('Shutdown home_view')
+    pass
