@@ -3,5 +3,10 @@
  * Root CSS specifications
  */
 
-
+div #menu_list {
+    display: block;
+    text-align: right;
+    float: right;
+    margin-right: 1em;
+}
 

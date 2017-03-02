@@ -20,6 +20,9 @@
     <metal:slot metal:define-slot="css" />
 </head>
 <body id="main">
+    <div id="menu">
+        <metal:main use-macro="load: menu.pt">
+    </div>
     <div id="content">
         <metal:slot metal:define-slot="content" />
     </div>
