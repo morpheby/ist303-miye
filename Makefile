@@ -25,23 +25,50 @@ PYTHON_INPUT = main.py
 
 ADDITIONAL_PY_IMPORTS = views support
 
-DATA_FILES = 
+DATA_FILES = assets/
+
+EXCLUDE_MODULES = assets
 
 NAME = miye
 
 PYI_FLAGS = --name="$(NAME)" -w
-ENV=
-PYI_SPEC_FLAGS = $(PYI_FLAGS) \
-  $(foreach import,$(ADDITIONAL_PY_IMPORTS),--hidden-import "$(import)")
+
+ENV =
+
+SPEC_FIXES =
 
 ifdef DEBUG
 	PYI_FLAGS += -d
 	ENV += PYRAMID_DEBUG_TEMPLATES=1
+	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\1\\\n\
+			options,/\n'
+	SPEC_FIXES += '2i\\\n' "\
+			options=[ ('v', None, 'OPTION') ]" '\n'
 endif
 
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
+   PATH_SEP =:
+   SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\1\\\n\
+		info_plist={\\\n\
+			"NSHighResolutionCapable": "True",\\\n\
+			"NSPrincipalClass": "NSApplication",\\\n\
+			"NSHighResolutionMagnifyAllowed": "False"\\\n\
+		},/\n'
 endif
+
+ifeq ($(TARGET_OS),Linux)
+   PATH_SEP =:
+endif
+
+ifeq ($(TARGET_OS),win32)
+   PATH_SEP =;
+endif
+
+PYI_SPEC_FLAGS = $(PYI_FLAGS) --additional-hooks-dir=tools/pyinst_hooks \
+  $(foreach import,$(ADDITIONAL_PY_IMPORTS),--hidden-import "$(import)") \
+  $(foreach data,$(DATA_FILES),--add-data "$(data)$(PATH_SEP)$(data)") \
+  $(foreach exclude,$(EXCLUDE_MODULES),--exclude-module "$(exclude)")
 
 .PHONY: clean clean_target clean_pycache distclean
 	
@@ -58,16 +85,12 @@ requirements.log: requirements.txt
 $(NAME).spec: $(PYTHON_INPUT) */*.py
 	pyi-makespec $(PYI_SPEC_FLAGS) $(PYTHON_INPUT)
 	mv $(NAME).spec $(NAME).spec-tmp
-	sed -E -e 's/BUNDLE\(([^()]+)/BUNDLE(\1\
-		info_plist={\
-			"NSHighResolutionCapable": "True",\
-			"NSPrincipalClass": "NSApplication",\
-			"NSHighResolutionMagnifyAllowed": "False"\
-		},/' \
+	echo $(SPEC_FIXES) > spec-fixes
+	sed -E -f spec-fixes \
 	 < $(NAME).spec-tmp > $(NAME).spec-new && \
 	 mv $(NAME).spec-new $(NAME).spec && \
-	 rm $(NAME).spec-tmp || \
-	 rm $(NAME).spec-tmp $(NAME).spec-new $(NAME).spec
+	 rm $(NAME).spec-tmp spec-fixes || \
+	 rm $(NAME).spec-tmp spec-fixes $(NAME).spec-new $(NAME).spec
 	 test -f $(NAME).spec
 	
 $(DIST_TARGET): $(NAME).spec $(PYTHON_INPUT) */*.py
