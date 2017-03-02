@@ -19,6 +19,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 
+import support.pyinstaller_hack
 import config
 import client
 import assets
@@ -28,7 +29,7 @@ from waitress import serve
 from pyramid.config import Configurator
 import threading as t
 from support.events import GracefulShutdown
-import support.pyinstaller_hack
+import pyramid_chameleon
 
 def create_app_config():
     """
