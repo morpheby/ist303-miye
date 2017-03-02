@@ -22,6 +22,7 @@ If you prefer to build it yourself or need to package it, follow these instructi
 ### Windows notes ###
 
 - You will need GNU Make for the build (included in [MSYS](http://msys2.github.io))
+- [Detailed Instructions](docs/win_installation.md)
 
 ### macOS notes ###
 
