@@ -1,7 +1,7 @@
 #creating a new instance with y = Room(405,4) will automatically add the room to the master list of rooms (Room.list_all)
 
 def init_rooms():
-    #create the master list of all rooms; list of lists: [room #, max occ.]
+    #create the master list of all rooms: [room #, max occ.]
     single = [ [100 + x, 1] for x in range(16) ]
     double = [ [200 + x, 2] for x in range(16) ]
     quad = [ [300 + x, 4] for x in range(4) ]
@@ -10,7 +10,7 @@ def init_rooms():
 
 class Room:
     
-    list_all = []
+    list_all = []  #see a particular room's info with Room.list_all[x].name
 
     def __init__(self, numbr, max_guests):
         self.numbr = numbr
