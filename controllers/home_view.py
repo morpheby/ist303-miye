@@ -32,8 +32,6 @@ class HomeView(ViewController):
     def __init__(self, request):
         super(HomeView, self).__init__(request)
         
-        self._request = request
-        
     def __call__(self):
         data = {}
         

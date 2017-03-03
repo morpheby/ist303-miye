@@ -33,17 +33,24 @@ class ReservationView(ViewController):
     def __init__(self, request):
         super(ReservationView, self).__init__(request)
         
-        self._request = request
         self.rooms = Room.list_all
     
     def GET(self):
         data = {
-            'rooms': self.rooms
+            'rooms': self.rooms,
         }
         
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
-            
+    
+    def POST(self):
+        data = {
+            'rooms': self.rooms,
+            'new_reservation': self._request.params['client_name'],
+        }
+        
+        return render_to_response('assets:views/reservation.pt', data,
+            request=self._request)
         
 @subscriber(GracefulShutdown)
 def shutdown(event):

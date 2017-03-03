@@ -11,6 +11,7 @@
             </p>
         </div>
         <div id="new_res_form">
+            <em tal:condition="exists:new_reservation">Added reservation for <span class='bold'>${new_reservation}</span> successfully</em>
             <h2>Add new reservation</h2>
             <form action="reservation" method="post" accept-charset="utf-8">
                 <p>

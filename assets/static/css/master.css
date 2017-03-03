@@ -13,3 +13,7 @@ div #menu_list {
 div div {
     margin-left: 1em;
 }
+
+.bold {
+    font-weight: 800;
+}
