@@ -10,3 +10,6 @@ div #menu_list {
     margin-right: 1em;
 }
 
+div div {
+    margin-left: 1em;
+}

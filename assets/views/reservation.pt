@@ -1,9 +1,40 @@
 <metal:main use-macro="master">
     <metal:slot fill-slot="title">
-        <title>Reservation</title>
+        <title>Reservation - ${config.APP_NAME}</title>
     </metal:slot>
     <metal:slot fill-slot="content">
-        <h1 id="title_1">Title 1</h1>
-        <p>Hello there! This is a test</p>
+        <h1 id="reserv_title">Reservation</h1>
+        <div id="calendar">
+            <h2>Available rooms</h2>
+            <p tal:repeat="room rooms">
+                <span tal:replace="room.name" />
+            </p>
+        </div>
+        <div id="new_res_form">
+            <h2>Add new reservation</h2>
+            <form action="reservation_submit" method="post" accept-charset="utf-8">
+                <p>
+                    <label for="client_name">Client Name</label>
+                    <input type="text" name="client_name" value="" id="client_name">
+                </p>
+                <p>
+                    <label for="number_of_guests">Number of guests</label>
+                    <input type="text" name="number_of_guests" value="1" id="number_of_guests">
+                </p>
+                <p>
+                    <label for="credit_card_number">Credit card Number</label>
+                    <input type="text" name="credit_card_number" value="" id="credit_card_number">
+                </p>
+                <p>
+                    <label for="date_from">Date from</label>
+                    <input type="text" name="date_from" value="" id="date_from">
+                </p>
+                <p>
+                    <label for="date_to">Date to</label>
+                    <input type="text" name="date_to" value="" id="date_to">
+                </p>
+                <p><input type="submit" value="Add reservation &rarr;"></p>
+            </form>
+        </div>
     </metal:slot>
 </metal:main>

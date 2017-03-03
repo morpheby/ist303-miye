@@ -24,15 +24,19 @@ from pyramid.renderers import render_to_response
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
+from models.Room import Room
 
 @view_config(route_name='reservation')
 class ReservationView(object):
     
     def __init__(self, request):
         self._request = request
-        
+        self.rooms = Room.list_all
+    
     def __call__(self):
-        data = {}
+        data = {
+            'rooms': self.rooms
+        }
         
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
