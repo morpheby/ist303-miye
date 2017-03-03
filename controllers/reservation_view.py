@@ -25,21 +25,25 @@ from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from models.Room import Room
+from .view_controller import ViewController
 
 @view_config(route_name='reservation')
-class ReservationView(object):
+class ReservationView(ViewController):
     
     def __init__(self, request):
+        super(ReservationView, self).__init__(request)
+        
         self._request = request
         self.rooms = Room.list_all
     
-    def __call__(self):
+    def GET(self):
         data = {
             'rooms': self.rooms
         }
         
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
+            
         
 @subscriber(GracefulShutdown)
 def shutdown(event):

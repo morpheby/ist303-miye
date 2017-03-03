@@ -1,5 +1,5 @@
 """
- home_view.py
+ view_controller.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -21,24 +21,30 @@ import cgi
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
+from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
-from .view_controller import ViewController
+from models.Room import Room
 
-@view_config(route_name='home')
-class HomeView(ViewController):
+
+class ViewController(object):
     
     def __init__(self, request):
-        super(HomeView, self).__init__(request)
-        
         self._request = request
-        
+        self._method = request.method
+    
+    def POST(self):
+        raise HTTPNotFound()
+    
+    def GET(self):
+        raise HTTPNotFound()
+    
     def __call__(self):
-        data = {}
-        
-        return render_to_response('assets:views/home.pt', data,
-            request=self._request)
+        if self._method == 'GET':
+            return self.GET()
+        elif self._method == 'POST':
+            return self.POST()
         
 @subscriber(GracefulShutdown)
 def shutdown(event):
