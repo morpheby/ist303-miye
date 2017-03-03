@@ -1,4 +1,6 @@
 
+import .Client
+
 class Reservation:
   
   # base prices are weekday, off-season
