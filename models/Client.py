@@ -11,14 +11,15 @@ class Client(Person):
     	self.ID = Person.ID
     	self.type = 'client'
     
-  	def addcard(self, cardnum):
+  	def addcard(self, clientID, cardnum):
     	self.creditcard = cardnum
 
 
 class Guest(Person):
 
-	def __init__(self):
+	def __init__(self, clientID):
 		Person.ID += 1
 		self.ID = Person.ID
 		self.type = 'guest'
+		self.clientID = clientID
 
