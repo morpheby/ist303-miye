@@ -12,7 +12,7 @@
         </div>
         <div id="new_res_form">
             <h2>Add new reservation</h2>
-            <form action="reservation_submit" method="post" accept-charset="utf-8">
+            <form action="reservation" method="post" accept-charset="utf-8">
                 <p>
                     <label for="client_name">Client Name</label>
                     <input type="text" name="client_name" value="" id="client_name">
