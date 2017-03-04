@@ -22,12 +22,28 @@ class Repository(object):
         quad = [ [300 + x, 4] for x in range(4) ]
         self.rooms = [Room(r,g) for r,g in single + double + quad]
 
+        self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One"]]
+        self.reservations = [Reservation(c.ID, '1/1/1997', '1/2/1997', 1) for c in self.clients]
+
     def add_client(self, client):
         self.clients += [client]
     
     def add_reservation(self, reservation):
         self.reservations += [reservation]
     
+    def find_client_by_id(self, clientID):
+        found = [c for c in self.clients if c.ID == clientID]
+        if len(found) == 0:
+            return None
+        else:
+            return found[0]
+            
+    def find_reservation_by_id(self, resID):
+        found = [r for r in self.reservations if r.ID == resID]
+        if len(found) == 0:
+            return None
+        else:
+            return found[0]
 
 
 #Static HOTEL variables

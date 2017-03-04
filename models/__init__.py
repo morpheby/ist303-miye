@@ -21,3 +21,8 @@ from .Reservation import Reservation
 from .Room import Room
 from .SpaRes import SpaRes
 from .Repository import Repository
+
+def init_helpers():
+    Reservation.client = property(lambda clientID: Repository().find_client_by_id(clientID))
+
+init_helpers()
