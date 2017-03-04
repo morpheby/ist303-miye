@@ -91,7 +91,7 @@ requirements.log: requirements.txt
 $(NAME).spec: $(PYTHON_INPUT) */*.py
 	pyi-makespec $(PYI_SPEC_FLAGS) $(PYTHON_INPUT)
 	mv $(NAME).spec $(NAME).spec-tmp
-	echo $(SPEC_FIXES) > spec-fixes
+	printf $(SPEC_FIXES) > spec-fixes
 	sed -E -f spec-fixes \
 	 < $(NAME).spec-tmp > $(NAME).spec-new && \
 	 mv $(NAME).spec-new $(NAME).spec && \
