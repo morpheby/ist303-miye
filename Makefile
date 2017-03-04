@@ -67,8 +67,8 @@ ifeq ($(TARGET_OS),win32)
 		win_no_prefer_redirects=False,\\\n\
          win_private_assemblies=False,/\n'
    SPEC_FIXES += 's/a.binaries/a.binaries\
-         + [('msvcp120.dll', 'C:\\Windows\\System32\\msvcp120.dll', 'BINARY'),\
-          ('msvcr120.dll', 'C:\\Windows\\System32\\msvcr120.dll', 'BINARY')]/\n'
+         '"+ [('msvcp120.dll', 'C:\\\\Windows\\\\System32\\\\msvcp120.dll', 'BINARY'),\
+          ('msvcr120.dll', 'C:\\\\Windows\\\\System32\\\\msvcr120.dll', 'BINARY')]/\n"
 endif
 
 PYI_SPEC_FLAGS = $(PYI_FLAGS) --additional-hooks-dir=tools/pyinst_hooks \
