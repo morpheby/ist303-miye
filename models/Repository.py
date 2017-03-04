@@ -2,10 +2,9 @@
 class Repository(object):
     __instance = None
     
-    def __new__(cls, val):
+    def __new__(cls, *args, **kwargs):
         if Repository.__instance is None:
-            Repository.__instance = object.__new__(cls)
-        Repository.__instance.val = val
+            Repository.__instance = object.__new__(cls, *args, **kwargs)
         return Repository.__instance
 
     def __init__(self, preload=None):

@@ -25,6 +25,7 @@ from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from models.Room import Room
+from models.Repository import Repository
 from .view_controller import ViewController
 
 @view_config(route_name='reservation')
