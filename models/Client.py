@@ -4,22 +4,21 @@ class Person:
 
 class Client(Person):
 
-    def __init__(self, fname, lname ):
+    def __init__(self, fname, lname, creditcard = None ):
+        self.ID = Person.ID
         Person.ID += 1
         self.fname = fname
         self.lname = lname
-        self.ID = Person.ID
+        self.creditcard = creditcard
         self.type = 'client'
     
-    def addcard(self, clientID, cardnum):
-        self.creditcard = cardnum
 
 
 class Guest(Person):
 
     def __init__(self, clientID):
-        Person.ID += 1
         self.ID = Person.ID
+        Person.ID += 1
         self.type = 'guest'
         self.clientID = clientID
 

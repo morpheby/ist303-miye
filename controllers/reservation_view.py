@@ -24,8 +24,7 @@ from pyramid.renderers import render_to_response
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
-from models.Room import Room
-from models.Repository import Repository
+from models import Room, Repository, Client, Reservation
 from .view_controller import ViewController
 
 @view_config(route_name='reservation')
@@ -33,9 +32,9 @@ class ReservationView(ViewController):
     
     def __init__(self, request):
         super(ReservationView, self).__init__(request)
-        
-        self.rooms = Room.list_all
+    
         self.repository = Repository()
+        self.rooms = self.repository.rooms
     
     def GET(self):
         data = {
@@ -45,14 +44,33 @@ class ReservationView(ViewController):
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
     
-    def POST(self):
+    def POST(self):        
+        reservation = self.make_res(*self._request.params['client_name'].split(' '),
+                self._request.params['credit_card_number'],
+                self._request.params['number_of_guests'],
+                self._request.params['date_from'],
+                self._request.params['date_to'])
+
         data = {
             'rooms': self.rooms,
-            'new_reservation': self._request.params['client_name'],
+            'new_reservation': reservation,
         }
-        
+
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
+    
+    def make_res(self, fname, lname, creditcard, num_guests, date_in, date_out):
+        client = Client(*self._request.params['client_name'].split(' '),
+                self._request.params['credit_card_number'])
+
+        self.repository.add_client(client)
+        
+        reservation = Reservation(client.ID, date_in, date_out, num_guests)
+
+        self.repository.add_reservation(reservation)
+
+        return reservation
+
         
 @subscriber(GracefulShutdown)
 def shutdown(event):
