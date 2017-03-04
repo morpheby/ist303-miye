@@ -34,6 +34,7 @@ class ReservationView(ViewController):
         super(ReservationView, self).__init__(request)
         
         self.rooms = Room.list_all
+        self.repository = Repository()
     
     def GET(self):
         data = {
