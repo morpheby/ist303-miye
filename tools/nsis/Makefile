@@ -52,7 +52,7 @@ dirlist.txt:
 	find $(DIST_TARGET) -type d | \
 		sed -E \
 			-e 's/^.+\/$(notdir $(DIST_TARGET))$$//' \
-			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${CreateDirectory} \2/' \
+			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${CreateDirectory} $$INSTDIR\\\2/' \
 			-e 's/\//\\/g' > dirlist.txt || rm dirlist.txt
 		test -f dirlist.txt
 
