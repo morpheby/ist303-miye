@@ -51,7 +51,7 @@ class CheckInOutView(ViewController):
 
         if selaction == 'in':
             self.check_in(selid)
-            return HTTPFound(self._request.route_path('view_reservation', selid))
+            return HTTPFound(self._request.route_path('view_checkin_confirmation', res_id=selid))
         elif selaction == 'out':
             self.check_out(selid)
             return HTTPFound(self._request.route_path('view_bill', res_id=selid))

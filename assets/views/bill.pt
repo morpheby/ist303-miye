@@ -6,8 +6,8 @@
         <h1 id="bill_title">Bill for ${reservation.client.fname} ${reservation.client.lname} (R# ${reservation.ID})</h1>
         <div id="bill">
             <h2>Provided services</h2>
-            <p tal:repeat="rate rates">
-                1 Night &mdash; $$${rate}
+            <p tal:repeat="stay zip(nights,rates)">
+                ${stay[0].date().isoformat()} &mdash; $$${stay[1]}
             </p>
             <div id=line_sep></div>
             <p><em>Total:</em> $$${total}</p>

@@ -1,5 +1,5 @@
 """
- bill_view.py
+ checkin_confirmation_view.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -27,11 +27,11 @@ from support.events import GracefulShutdown
 from models import Room, Repository, Client, Reservation
 from .view_controller import ViewController
 
-@view_config(route_name='view_bill')
-class BillView(ViewController):
+@view_config(route_name='view_checkin_confirmation')
+class CheckInConfirmationView(ViewController):
     
     def __init__(self, request):
-        super(BillView, self).__init__(request)
+        super(CheckInConfirmationView, self).__init__(request)
     
         self.repository = Repository.Instance()
     
@@ -40,12 +40,10 @@ class BillView(ViewController):
         
         data = {
             'nights': reservation.nights,
-            'rates': reservation.nightly_rates,
-            'total': reservation.ttlcost,
             'reservation': reservation,
         }
         
-        return render_to_response('assets:views/bill.pt', data,
+        return render_to_response('assets:views/checkin.pt', data,
             request=self._request)
 
         
