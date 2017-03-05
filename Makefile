@@ -63,9 +63,8 @@ endif
 
 ifeq ($(TARGET_OS),win32)
    PATH_SEP =;
-   SPEC_FIXES += 's/Analysis\(([^()]+)/Analysis(\\1\
-   		win_no_prefer_redirects=False,\\\n\
-		win_private_assemblies=False,/\n'
+   SPEC_FIXES += 's/win_no_prefer_redirects=(True|False)/win_no_prefer_redirects=False/\n'
+   SPEC_FIXES += 's/win_private_assemblies=(True|False)/win_private_assemblies=False/\n'
    SPEC_FIXES += 's/a\\.binaries/a.binaries\
          '"+ [('msvcp120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcp120.dll', 'BINARY'),\
           ('msvcr120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcr120.dll', 'BINARY')]/\n"
@@ -101,6 +100,9 @@ $(NAME).spec: $(PYTHON_INPUT) */*.py
 	 mv $(NAME).spec-new $(NAME).spec && \
 	 rm $(NAME).spec-tmp spec-fixes || \
 	 rm $(NAME).spec-tmp spec-fixes $(NAME).spec-new $(NAME).spec
+	 @echo ">>>>"
+	 cat $(NAME).spec
+	 @echo "<<<<"
 	 test -f $(NAME).spec
 	
 $(DIST_TARGET): $(NAME).spec $(PYTHON_INPUT) */*.py
