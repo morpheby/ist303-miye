@@ -129,6 +129,8 @@ Section "Program" SecProgram
   
   ;//FILES_GO_HERE//
   
+  ${CreateDirectory} "$SMPROGRAMS\@PROJECT@ CRM"
+  
   ${CreateShortcut} "$SMPROGRAMS\@PROJECT@ CRM\@PROJECT@.lnk" "$INSTDIR\@EXENAME@" \
     "" "" "" SW_SHOWMAXIMIZED \
     "" "@FULLNAME@"
