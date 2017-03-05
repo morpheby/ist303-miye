@@ -31,7 +31,7 @@ EXCLUDE_MODULES = assets
 
 NAME = miye
 
-PYI_FLAGS = --name="$(NAME)" -w
+PYI_FLAGS = --name="$(NAME)"
 
 ENV =
 
@@ -44,6 +44,10 @@ ifdef DEBUG
 			options,/\n'
 	SPEC_FIXES += '2i\\\n' "\
 			options=[ ('v', None, 'OPTION') ]" '\n'
+endif
+
+ifndef DEBUG
+	PYI_FLAGS += -w
 endif
 
 ifeq ($(TARGET_OS),Darwin)
