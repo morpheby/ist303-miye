@@ -1,5 +1,3 @@
-#creating a new instance with y = Room(405,4) will automatically add the room to the master list of rooms (Room.list_all)
-
 
 class Room:
 
