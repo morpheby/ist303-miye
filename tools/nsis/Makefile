@@ -42,9 +42,8 @@ generated.properties:
 	echo "TARGET=$(DISTDIR)/setup.exe" >> generated.properties
 	
 filelist.txt:
-	find $(DIST_TARGET) | \
+	find $(DIST_TARGET) -not -type d | \
 		sed -E \
-			-e 's/^.+\/$(notdir $(DIST_TARGET))$$//' \
 			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${File} \1 \2/' \
 			-e 's/\//\\/g' > filelist.txt || rm filelist.txt
 		test -f filelist.txt
