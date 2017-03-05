@@ -114,15 +114,14 @@ run_real:
 	-${ENV} PYRAMID_RELOAD_TEMPLATES=1 waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
 
 run: all
-	(																 \
+	-(																 \
 		sleep 5														;\
 		if [[ $(TARGET_OS) == Darwin ]] ; then	 					 \
 			open "http://127.0.0.1:8041"							;\
 		elif [[ $(TARGET_OS) == win32 ]] ; then	 					 \
 			start "http://127.0.0.1:8041"							;\
 		fi															;\
-	) &
-	-$(MAKE) run_real
+	) & $(MAKE) run_real ; kill %1
 	
 clean_target:
 	rm -rf $(DIST_TARGET) build/
