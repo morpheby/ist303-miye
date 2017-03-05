@@ -49,7 +49,7 @@ endif
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
    PATH_SEP =:
-   ZIP_CMD = zip -vr $(NAME).zip $(NAME).app
+   PACKAGE_CMD = zip -vr $(NAME).zip $(NAME).app
    SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\\1\
 		info_plist={\\\n\
 			"NSHighResolutionCapable": "True",\\\n\
@@ -70,7 +70,7 @@ ifeq ($(TARGET_OS),win32)
    SPEC_FIXES += 's/a\\.binaries/a.binaries\
          '"+ [('msvcp120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcp120.dll', 'BINARY'),\
           ('msvcr120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcr120.dll', 'BINARY')]/\n"
-   ZIP_CMD = cd ../tools/nsis && $(MAKE) package
+   PACKAGE_CMD = cd ../tools/nsis && $(MAKE) package
 endif
 
 PYI_SPEC_FLAGS = $(PYI_FLAGS) --additional-hooks-dir=tools/pyinst_hooks \
@@ -118,7 +118,7 @@ dist: all $(DISTDIR)/.COMPLETED
 
 package: dist
 	-rm -f dist/$(NAME).{zip,tar.bz2} dist/setup.exe
-	cd dist && $(ZIP_CMD)
+	cd dist && $(PACKAGE_CMD)
 
 test: all
 
