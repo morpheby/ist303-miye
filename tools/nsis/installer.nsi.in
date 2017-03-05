@@ -19,7 +19,7 @@
   OutFile "@TARGET@"
 
   ;Default installation folder
-  InstallDir "$LOCALAPPDATA/@PROJECT@ CRM"
+  InstallDir "$LOCALAPPDATA\@PROJECT@ CRM"
   
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\@PROJECT@ CRM" ""
