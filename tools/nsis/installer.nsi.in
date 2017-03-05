@@ -26,6 +26,9 @@
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel user
+  
+  ;Compressor
+  SetCompressor LZMA
 
 ;--------------------------------
 ;Interface Settings
