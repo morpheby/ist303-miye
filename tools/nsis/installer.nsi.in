@@ -125,6 +125,8 @@ Section "Program" SecProgram
 
   SetOutPath $INSTDIR
   
+  ;//DIRS_GO_HERE//
+  
   ;//FILES_GO_HERE//
   
   ${CreateShortcut} "$SMPROGRAMS\@PROJECT@ CRM\@PROJECT@.lnk" "$INSTDIR\@EXENAME@" \

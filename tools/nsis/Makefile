@@ -48,9 +48,19 @@ filelist.txt:
 			-e 's/\//\\/g' > filelist.txt || rm filelist.txt
 		test -f filelist.txt
 
-installer.nsi: filelist.txt license.txt installer.nsi.in generated.properties
+dirlist.txt:
+	find $(DIST_TARGET) -type d | \
+		sed -E \
+			-e 's/^.+\/$(notdir $(DIST_TARGET))$$//' \
+			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${CreateDirectory} \2/' \
+			-e 's/\//\\/g' > dirlist.txt || rm dirlist.txt
+		test -f dirlist.txt
+
+installer.nsi: dirlist.txt filelist.txt license.txt installer.nsi.in generated.properties
 	$(ROOTDIR)/tools/gen-config.sh installer.nsi.in generated.properties $@.tmp -h
-	cat $@.tmp | sed -E -e '/\/\/FILES_GO_HERE\/\//r filelist.txt' > $@
+	cat $@.tmp | sed -E \
+		-e '/\/\/FILES_GO_HERE\/\//r filelist.txt' \
+		-e '/\/\/DIRS_GO_HERE\/\//r dirlist.txt' > $@
 	rm $@.tmp
 
 license.txt: $(ROOTDIR)/LICENSE
@@ -60,7 +70,7 @@ package: $(DISTDIR)/setup.exe
 
 clean:
 	rm -f $(DISTDIR)/setup.exe
-	rm -f license.txt installer.nsi generated.properties filelist.txt *.tmp
+	rm -f license.txt installer.nsi generated.properties dirlist.txt filelist.txt *.tmp
 
 distclean: clean
 	rm -rf *.log
