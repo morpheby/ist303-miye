@@ -5,6 +5,8 @@ matrix:
           python: 3.5
         - os: osx
           language: generic
+git:
+    depth: 300
 env:
     global:
         - VERSION="$(. tools/versionGen.sh ${TRAVIS_BUILD_NUMBER})"
