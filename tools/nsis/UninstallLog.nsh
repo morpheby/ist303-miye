@@ -11,9 +11,9 @@
   !macroend
  
 ;CreateShortcut macro
-  !macro CreateShortcut FilePath FilePointer Pamameters Icon IconIndex
+  !macro CreateShortcut FilePath FilePointer Pamameters Icon IconIndex start_options keyboard_shortcut description
     FileWrite $UninstLog "${FilePath}$\r$\n"
-    CreateShortcut "${FilePath}" "${FilePointer}" "${Pamameters}" "${Icon}" "${IconIndex}"
+    CreateShortcut "${FilePath}" "${FilePointer}" "${Pamameters}" "${Icon}" "${IconIndex}" "${start_options}" "${keyboard_shortcut}" "${description}"
   !macroend
  
 ;Copy files macro
