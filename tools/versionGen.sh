@@ -11,10 +11,10 @@ fi
 
 GIT_DIR="${PROJECT_DIR}/.git"
 
-GIT_TAG=`git describe --abbrev=0`
+GIT_TAG=`git describe --always --candidates=100 --abbrev=0`
 GIT_COMMIT_COUNT=`git rev-list ${GIT_TAG}..HEAD | wc -l | tr -d ' '`
 GIT_TOTAL_COMMIT_COUNT=`git rev-list HEAD | wc -l | tr -d ' '`
-RELEASE_VERSION=`git describe`
+RELEASE_VERSION=`git describe --always --candidates=100`
 
 if [[ x$1 == x"-s" ]]; then
     OMIT_BUILD=1
