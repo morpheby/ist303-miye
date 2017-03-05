@@ -41,8 +41,17 @@ generated.properties:
 	echo "EXENAME=$(EXE_NAME)" >> generated.properties
 	echo "TARGET=$(DISTDIR)/setup.exe" >> generated.properties
 	
-installer.nsi: license.txt installer.nsi.in generated.properties
-	$(ROOTDIR)/tools/gen-config.sh installer.nsi.in generated.properties $@ -h
+filelist.txt:
+	find $(DIST_TARGET) | \
+		sed -E \
+			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${File} \1 \2/' \
+			-e 's/\//\\/g' > filelist.txt || rm filelist.txt
+		test -f filelist.txt
+
+installer.nsi: filelist.txt license.txt installer.nsi.in generated.properties
+	$(ROOTDIR)/tools/gen-config.sh installer.nsi.in generated.properties $@.tmp -h
+	cat $@.tmp | sed -E -e '/\/\/FILES_GO_HERE\\\\/r filelist.txt' > $@
+	rm $@.tmp
 
 license.txt: $(ROOTDIR)/LICENSE
 	cp -f $< $@
@@ -51,7 +60,7 @@ package: $(DISTDIR)/setup.exe
 
 clean:
 	rm -f $(DISTDIR)/setup.exe
-	rm -f license.txt installer.nsi generated.properties
+	rm -f license.txt installer.nsi generated.properties filelist.txt *.tmp
 
 distclean: clean
 	rm -rf *.log
