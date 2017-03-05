@@ -150,9 +150,11 @@ clean_target:
 clean: clean_target
 	rm -f $(DISTDIR)/.COMPLETED
 	rm -f $(NAME).spec
+	cd tools/nsis && $(MAKE) clean
 	
 clean_pycache:
 	rm -rf `find . -name __pycache__` `find . -name "*.pyc"`
 	
 distclean: clean clean_pycache
 	rm -rf *.log *.spec $(DISTDIR)
+	cd tools/nsis && $(MAKE) distclean
