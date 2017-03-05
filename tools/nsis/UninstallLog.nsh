@@ -7,7 +7,7 @@
   !macro File InputFile FileName
      IfFileExists "$OUTDIR\${FileName}" +2
      FileWrite $UninstLog "$OUTDIR\${FileName}$\r$\n"
-     File /oname="${FileName}" "${InputFile}" 
+     File "/oname=${FileName}" "${InputFile}" 
   !macroend
  
 ;CreateShortcut macro

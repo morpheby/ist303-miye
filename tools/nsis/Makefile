@@ -50,7 +50,7 @@ filelist.txt:
 
 installer.nsi: filelist.txt license.txt installer.nsi.in generated.properties
 	$(ROOTDIR)/tools/gen-config.sh installer.nsi.in generated.properties $@.tmp -h
-	cat $@.tmp | sed -E -e '/\/\/FILES_GO_HERE\\\\/r filelist.txt' > $@
+	cat $@.tmp | sed -E -e '/\/\/FILES_GO_HERE\/\//r filelist.txt' > $@
 	rm $@.tmp
 
 license.txt: $(ROOTDIR)/LICENSE
