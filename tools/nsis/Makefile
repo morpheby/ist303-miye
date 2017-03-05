@@ -44,14 +44,14 @@ generated.properties:
 installer.nsi: license.txt installer.nsi.in generated.properties
 	$(ROOTDIR)/tools/gen-config.sh installer.nsi.in generated.properties $@ -h
 
-license.txt: $(ROOTDIT)/LICENSE
+license.txt: $(ROOTDIR)/LICENSE
 	cp -f $< $@
 
 package: $(DISTDIR)/setup.exe
 
 clean:
 	rm -f $(DISTDIR)/setup.exe
-	rm -f license.txt
+	rm -f license.txt installer.nsi generated.properties
 
 distclean: clean
 	rm -rf *.log
