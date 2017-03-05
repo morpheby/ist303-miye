@@ -44,6 +44,7 @@ generated.properties:
 filelist.txt:
 	find $(DIST_TARGET) | \
 		sed -E \
+			-e 's/^.+\/$(notdir $(DIST_TARGET))$$//' \
 			-e 's/^(.+\/$(notdir $(DIST_TARGET))\/(.+))$$/$${File} \1 \2/' \
 			-e 's/\//\\/g' > filelist.txt || rm filelist.txt
 		test -f filelist.txt
