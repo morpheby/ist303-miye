@@ -5,6 +5,6 @@
     <metal:slot fill-slot="content">
         <h1 id="homepage_title">Mud In Your Eye CRM</h1>
         <p>Hello there! This is a test</p>
-        <p><a href="${request.route_url('reservation')}">Reservation</a></p>
+        <p><a href="${request.route_path('reservation')}">Reservation</a></p>
     </metal:slot>
 </metal:main>

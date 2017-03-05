@@ -2,15 +2,11 @@
 from .Room import Room
 from .Client import Client
 from .Reservation import Reservation
+from support import Singleton
 
+@Singleton
 class Repository(object):
-    __instance = None
     
-    def __new__(cls, *args, **kwargs):
-        if Repository.__instance is None:
-            Repository.__instance = object.__new__(cls, *args, **kwargs)
-        return Repository.__instance
-
     def __init__(self):
         self.rooms = []
         self.clients = []
@@ -44,6 +40,10 @@ class Repository(object):
             return None
         else:
             return found[0]
+            
+    def find_reservations_checked(self, c_in, c_out):
+        found = [r for r in self.reservations if r.checked_in == c_in and r.checked_out == c_out]
+        return found
 
 
 #Static HOTEL variables

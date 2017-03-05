@@ -1,5 +1,5 @@
 <div id="menu_list">
-    <p><a href="${request.route_url('home')}">Home</a></p>
-    <p><a href="${request.route_url('reservation')}">Reservation</a></p>
-    <p><a href="${request.route_url('checkinout')}">Check In/Out</a></p>
+    <p><a href="${request.route_path('home')}">Home</a></p>
+    <p><a href="${request.route_path('reservation')}">Reservation</a></p>
+    <p><a href="${request.route_path('checkinout')}">Check In/Out</a></p>
 </div>

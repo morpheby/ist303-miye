@@ -46,7 +46,7 @@ def create_app_config():
     config.add_route('home', '/')
     config.add_route('reservation', '/reservation')
     config.add_route('checkinout', '/checkinout')
-    config.add_route('checkinout_client', '/checkinout/{action}/{id}')
+    config.add_route('checkinout_client', '/checkinout/{selected_action}/{selected_id}')
     
     config.scan(controllers)
     

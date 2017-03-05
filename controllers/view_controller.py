@@ -33,6 +33,12 @@ class ViewController(object):
     def __init__(self, request):
         self._request = request
         self._method = request.method
+        
+    def __getattr__(self, attr):
+        try:
+            return self._request.matchdict[attr]
+        except KeyError as e:
+            raise AttributeError(attr)
     
     def POST(self):
         raise HTTPNotFound()

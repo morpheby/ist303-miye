@@ -33,7 +33,7 @@ class ReservationView(ViewController):
     def __init__(self, request):
         super(ReservationView, self).__init__(request)
     
-        self.repository = Repository()
+        self.repository = Repository.Instance()
         self.rooms = self.repository.rooms
     
     def GET(self):
