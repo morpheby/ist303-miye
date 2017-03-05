@@ -35,12 +35,12 @@ PYI_FLAGS = --name="$(NAME)" -w
 
 ENV =
 
-SPEC_FIXES =
+SPEC_FIXES = "\#\n"
 
 ifdef DEBUG
 	PYI_FLAGS += -d
 	ENV += PYRAMID_DEBUG_TEMPLATES=1
-	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\1\\\n\
+	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\\1\\\n\
 			options,/\n'
 	SPEC_FIXES += '2i\\\n' "\
 			options=[ ('v', None, 'OPTION') ]" '\n'
@@ -49,7 +49,7 @@ endif
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
    PATH_SEP =:
-   SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\1\\\n\
+   SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\\1\
 		info_plist={\\\n\
 			"NSHighResolutionCapable": "True",\\\n\
 			"NSPrincipalClass": "NSApplication",\\\n\
@@ -63,9 +63,9 @@ endif
 
 ifeq ($(TARGET_OS),win32)
    PATH_SEP =;
-   SPEC_FIXES += 's/Analysis\(([^()]+)/Analysis(\1\\\n\
-		win_no_prefer_redirects=False,\\\n\
-         win_private_assemblies=False,/\n'
+   SPEC_FIXES += 's/Analysis\(([^()]+)/Analysis(\\1\
+   		win_no_prefer_redirects=False,\\\n\
+		win_private_assemblies=False,/\n'
    SPEC_FIXES += 's/a.binaries/a.binaries\
          '"+ [('msvcp120.dll', 'C:\\\\Windows\\\\System32\\\\msvcp120.dll', 'BINARY'),\
           ('msvcr120.dll', 'C:\\\\Windows\\\\System32\\\\msvcr120.dll', 'BINARY')]/\n"
@@ -91,9 +91,12 @@ requirements.log: requirements.txt
 $(NAME).spec: $(PYTHON_INPUT) */*.py
 	pyi-makespec $(PYI_SPEC_FLAGS) $(PYTHON_INPUT)
 	mv $(NAME).spec $(NAME).spec-tmp
-	printf $(SPEC_FIXES) > spec-fixes
+	printf "%b" $(SPEC_FIXES) > spec-fixes
 	sed -E -f spec-fixes \
 	 < $(NAME).spec-tmp > $(NAME).spec-new && \
+	 echo ">>>>" && \
+	 cat spec-fixes && \
+	 echo "<<<<" && \
 	 mv $(NAME).spec-new $(NAME).spec && \
 	 rm $(NAME).spec-tmp spec-fixes || \
 	 rm $(NAME).spec-tmp spec-fixes $(NAME).spec-new $(NAME).spec
