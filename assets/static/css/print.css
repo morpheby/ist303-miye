@@ -1,0 +1,21 @@
+/*
+ * master.css
+ * Root CSS specifications
+ */
+
+div #menu_list {
+    display: none;
+}
+
+div {
+    margin-left: 1em;
+}
+
+div div {
+    margin-left: 1em;
+}
+
+div #line_sep {
+    height: 1pt;
+    border-bottom-width: 1pt;
+}

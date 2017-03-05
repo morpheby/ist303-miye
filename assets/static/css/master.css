@@ -17,3 +17,11 @@ div div {
 .bold {
     font-weight: 800;
 }
+
+div #line_sep {
+    height: 1px;
+    border-bottom: 1px solid rgb(100, 100, 100);
+    width: 100%;
+    margin: 1em 0 0 0;
+    display: block;
+}
