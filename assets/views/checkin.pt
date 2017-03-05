@@ -10,5 +10,8 @@
             <p>Number of guests: ${reservation.num_guests}</p>
             <p>Total room cost: ${reservation.ttlcost}</p>
         </div>
+        <div id="no_print">
+            <a href="#" onclick="window.print()">Print</a>
+        </div>
     </metal:slot>
 </metal:main>

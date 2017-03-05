@@ -19,3 +19,9 @@ div #line_sep {
     height: 1pt;
     border-bottom-width: 1pt;
 }
+
+#no_print {
+    display: none;
+    height: 0;
+    width: 0;
+}
