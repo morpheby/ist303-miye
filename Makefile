@@ -23,7 +23,7 @@ DIST_TARGET = $(DISTDIR)/miye
 
 PYTHON_INPUT = main.py
 
-ADDITIONAL_PY_IMPORTS = views support
+ADDITIONAL_PY_IMPORTS = support
 
 DATA_FILES = assets/
 
