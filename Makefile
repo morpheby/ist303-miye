@@ -46,8 +46,14 @@ ifdef DEBUG
 			options=[ ('v', None, 'OPTION') ]" '\n'
 endif
 
+ifneq ($(TARGET_OS),win32)
+	PYI_FLAGS += -w
+endif
+
+ifeq ($(TARGET_OS),win32)
 ifndef DEBUG
 	PYI_FLAGS += -w
+endif
 endif
 
 ifeq ($(TARGET_OS),Darwin)
