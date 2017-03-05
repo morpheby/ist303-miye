@@ -50,7 +50,8 @@ build_script:
   - make dist
   
 after_build:
-  - 7z a %APPVEYOR_PROJECT_NAME%-%VERSION_FULL%-win-%OS_ARCH%.zip %APPVEYOR_BUILD_FOLDER%\dist\*
+  - make package
+  - copy %APPVEYOR_BUILD_FOLDER%\dist\setup.exe %APPVEYOR_PROJECT_NAME%-%VERSION_FULL%-win-%OS_ARCH%.exe
 
 #---------------------------------#
 #       tests configuration       #
@@ -66,7 +67,7 @@ test_script:
 
 artifacts:
 
-  - path: $(appveyor_project_name)-$(version_full)-win-$(os_arch).zip
+  - path: $(appveyor_project_name)-$(version_full)-win-$(os_arch).exe
     name: arch 
     type: file
   
