@@ -47,7 +47,7 @@ class ReservationView(ViewController):
     def POST(self):        
         reservation = self.make_res(*self._request.params['client_name'].split(' '),
                 self._request.params['credit_card_number'],
-                self._request.params['number_of_guests'],
+                int(self._request.params['number_of_guests']),
                 self._request.params['date_from'],
                 self._request.params['date_to'])
 

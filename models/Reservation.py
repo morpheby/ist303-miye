@@ -37,6 +37,8 @@ class Reservation:
             base_price = hotel_baseprice['Double']
         elif self.num_guests == 4:
             base_price = hotel_baseprice['Quad']
+        else:
+            raise AttributeError()
         #adjust base price for peak and weekends
         # peak season: 5/15-8/15 & 12/15-1/15
         [check_in, check_out] = [parser.parse(self.checkin), parser.parse(self.checkout)]
