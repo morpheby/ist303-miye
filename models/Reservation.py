@@ -27,7 +27,7 @@ class Reservation:
         return "Reservation (%s, %s): #%d for client %d from %s to %s with %d guest(s) - $%d" % \
             ("checked in" if self.checked_in else "not checked in",
             "checked out" if self.checked_out else "not checked out", self.ID, self.clientID,
-            self.checkin, self.checkout, self.num_guests, self.hotres_cost)
+            self.checkin, self.checkout, self.num_guests, self.ttlcost)
 
     def calc_cost(self):
         #calc the base price based on occupancy
