@@ -42,8 +42,7 @@ ifdef DEBUG
 	ENV += PYRAMID_DEBUG_TEMPLATES=1
 	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\\1\\\n\
 			options,/\n'
-	SPEC_FIXES += '2i\\\n' "\
-			options=[ ('v', None, 'OPTION') ]" '\n'
+	SPEC_FIXES += '2i\\\n'"options=[ ('v', None, 'OPTION') ]" '\n'
 endif
 
 ifneq ($(TARGET_OS),win32)
