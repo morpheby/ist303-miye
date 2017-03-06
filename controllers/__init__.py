@@ -19,4 +19,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 from .home_view import HomeView
 from .reservation_view import ReservationView
 from .checkinout_view import CheckInOutView
+from .bill_view import BillView
+from .checkin_confirmation_view import CheckInConfirmationView
 from .default import globals_factory
