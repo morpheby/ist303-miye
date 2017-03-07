@@ -1,10 +1,11 @@
 class SpaRes:
   
-  def __init__(self, personID, date, time, treatment_type):
+  def __init__(self, personID, date, time, treatment_type, duration):
     self.person = personID
     self.date = date
     self.time = time
     self.treatment_type = treatment_type
+    self.duration = duration
 
   def checkSpaAvailability(date, time, type):
     pass
