@@ -1,70 +1,42 @@
 class Treatment:
     
-    types = []  #stores all instances
-    treatment_categories = []
+    catalog = {}  #stores all instances
     
-    def __init__(self, durations, cost_per_min, rooms, time_between, subtype):
+    def __init__(self, treatment_type, durations, cost_per_min, rooms, time_between, subtype = None):
         self.durations = durations
         self.cost_per_min = cost_per_min
         self.rooms = rooms
+        self.treatment_type = treatment_type
         self.time_between = time_between
         if subtype != None:
             self.subtype = subtype
+            
+        if treatment_type in Treatment.catalog:
+            Treatment.catalog[treatment_type].append(self)
         else:
-            self.subtype = ''
-        Treatment.types.append(self)
-        self.types.append(self)
+            Treatment.catalog[treatment_type] = [self]
+
         
     def __str__(self):
-        return "%s (%s)\nlengths:  %d minute, %d minute\n$%d per minute\n%d rooms" % (self.subtype,self.type,self.durations[0],self.durations[1],self.cost_per_min,self.rooms)
+        return "%s %s\nlengths:  %d minute, %d minute\n$%d per minute\n%d rooms\n" % (self.subtype,self.treatment_type,self.durations[0],self.durations[1],self.cost_per_min,self.rooms)
+
         
-class Mineral_Bath(Treatment):
-    
-    num_types = 0
-    types = []
-    
-    def __init__(self, durations, cost_per_min, rooms, time_between, subtype = None):
-        self.type = 'mineral bath'
-        super().__init__(durations, cost_per_min, rooms, time_between, subtype)
-        Mineral_Bath.num_types += 1
+    def print_menu():
+        if len(Treatment.catalog) > 0:
+            for key in Treatment.catalog:
+                for item in Treatment.catalog[key]:
+                    print(item)
+        else:
+            print("No treatments have been added yet.  Use Treatment() class to add.")
         
-class Massage(Treatment):
-    
-    num_types = 0
-    types = []
-    
-    def __init__(self, durations, cost_per_min, rooms, time_between, subtype = None):
-        self.type = 'massage'
-        super().__init__(durations, cost_per_min, rooms, time_between, subtype)
-        Massage.num_types += 1
 
-class Facial(Treatment):
-    
-    num_types = 0
-    types = []
-    
-    def __init__(self, durations, cost_per_min, rooms, time_between, subtype = None):
-        self.type = 'facial'
-        super().__init__(durations, cost_per_min, rooms, time_between, subtype)
-        Facial.num_types += 1
-
-class Specialty(Treatment):
-    
-    num_types = 0
-    types = []
-    
-    def __init__(self, durations, cost_per_min, rooms, time_between, subtype = None):
-        self.type = 'specialty'
-        super().__init__(durations, cost_per_min, rooms, time_between, subtype)
-        Specialty.num_types += 1
-
-massage_swedish = Massage([30,60], 3, 12, None, 'swedish')
-massage_shiatsu = Massage([30,60], 3, 12, None, 'shiatsu')
-massage_deeptissue = Massage([30,60], 3, 12, None, 'deep tissue')
-mineral_bath = Mineral_Bath([60,90], 2.5, 12, 2)
-facial_normal = Facial([30,60], 2, 3, None, 'normal')
-facial_collagen = Facial([30,60], 2, 3, None, 'collagen')
-specialty_hotstone = Specialty([60,90], 3.5, 2, None, 'hot stone')
-specialty_sugarscrub = Specialty([60,90], 3.5, 2, None, 'sugar scrub')
-specialty_herbalwrap = Specialty([60,90], 3.5, 2, None, 'herbal body wrap')
-specialty_mudwrap = Specialty([60,90], 3.5, 2, None, 'botanical mud wrap')
+massage_swedish = Treatment('massage',[30,60], 3, 12, 0, 'swedish')
+massage_shiatsu = Treatment('massage',[30,60], 3, 12, 0, 'shiatsu')
+massage_deeptissue = Treatment('massage',[30,60], 3, 12, 0, 'deep tissue')
+mineral_bath = Treatment('mineral bath',[60,90], 2.5, 12, 2, 'standard')
+facial_normal = Treatment('facial',[30,60], 2, 3, 0, 'normal')
+facial_collagen = Treatment('facial',[30,60], 2, 3, 0, 'collagen')
+specialty_hotstone = Treatment('specialty',[60,90], 3.5, 2, 0, 'hot stone')
+specialty_sugarscrub = Treatment('specialty',[60,90], 3.5, 2, 0, 'sugar scrub')
+specialty_herbalwrap = Treatment('specialty',[60,90], 3.5, 2, 0, 'herbal body wrap')
+specialty_mudwrap = Treatment('specialty',[60,90], 3.5, 2, 0, 'botanical mud wrap')
