@@ -35,7 +35,7 @@ class Reservation:
             base_price = hotel_baseprice['Single']
         elif self.num_guests == 2:
             base_price = hotel_baseprice['Double']
-        elif self.num_guests == 4:
+        elif 3 <= self.num_guests <= 4:
             base_price = hotel_baseprice['Quad']
         else:
             raise AttributeError()
