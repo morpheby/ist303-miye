@@ -56,4 +56,3 @@ class Reservation:
             if date_list[i].weekday() == 5 or date_list[i].weekday() == 6:
                 nightly_prices[i] += weekend_surcharge
         return [date_list,nightly_prices,sum(nightly_prices)]
-

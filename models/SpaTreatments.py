@@ -28,6 +28,9 @@ class Treatment:
                     print(item)
         else:
             print("No treatments have been added yet.  Use Treatment() class to add.")
+            
+    def add_new_treatment():
+        pass
         
 
 massage_swedish = Treatment('massage',[30,60], 3, 12, 0, 'swedish')

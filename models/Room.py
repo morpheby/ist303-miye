@@ -16,4 +16,4 @@ class Room:
     def name(self):
         "The name property."
         return "Room #%d (max. guests: %d)" % (self.numbr, self.max_guests)
-        
+     
