@@ -50,10 +50,14 @@ class ReservationView(ViewController):
                 int(self._request.params['number_of_guests']),
                 self._request.params['date_from'],
                 self._request.params['date_to'])
+        
+        checkAvailable = self.check_availability(*self._request.params['date_from_check'],
+                                                 self._request.params['date_to_check'])
 
         data = {
             'rooms': self.rooms,
             'new_reservation': reservation,
+            'check_results': checkAvailable
         }
 
         return render_to_response('assets:views/reservation.pt', data,
@@ -70,6 +74,10 @@ class ReservationView(ViewController):
         self.repository.add_reservation(reservation)
 
         return reservation
+    
+    def check_availability(self, date_in, date_out):
+        x='dates are good'
+        return x
 
         
 @subscriber(GracefulShutdown)
