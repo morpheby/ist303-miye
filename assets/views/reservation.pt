@@ -5,9 +5,9 @@
     <metal:slot fill-slot="content">
         <h1 id="reserv_title">Reservation</h1>
         <div id="check_availability_form">
-            <em tal:condition="exists:check_results"> ${check_results.availability} </em>
+            <em tal:condition="exists:check_results"> ${check_results} </em>
             <h2>Check Available Dates</h2>
-            <form action="checkAvailable" method="post" accept-charset="utf-8">
+            <form action="reservation" method="post" accept-charset="utf-8">
                 <p>
                     <label for="date_from_check">Check In</label>
                     <input type="text" name="date_from_check" value="" id="date_from_check">

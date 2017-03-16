@@ -45,7 +45,7 @@ class ReservationView(ViewController):
             request=self._request)
     
     def POST(self):     
-        if self._request.params['credit_card_number'] != '' and self._request.params['date_to'] != '':
+        if 'credit_card_number' in self._request.params:
             reservation = self.make_res(*self._request.params['client_name'].split(' '),
                 self._request.params['credit_card_number'],
                 int(self._request.params['number_of_guests']),
@@ -60,11 +60,12 @@ class ReservationView(ViewController):
             return render_to_response('assets:views/reservation.pt', data,
                 request=self._request)
         
-        if self._request.params['date_from_check'] != '' and self._request.params['date_to_check'] != '':
-            checkAvailable = self.check_availability(*self._request.params['date_from_check'],
+        if 'date_from_check' in self._request.params:
+            checkAvailable = self.check_availability(self._request.params['date_from_check'],
                                                  self._request.params['date_to_check'])
 
             data = {
+                'rooms': self.rooms,
                 'check_results': checkAvailable
             }
 
@@ -84,8 +85,8 @@ class ReservationView(ViewController):
         return reservation
     
     def check_availability(self, date_in, date_out):
-        x='dates are good'
-        return x
+        ch = 'dates are good'
+        return ch
 
         
 @subscriber(GracefulShutdown)
