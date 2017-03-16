@@ -21,6 +21,7 @@ import cgi
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
+from pyramid.renderers import render
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
@@ -44,33 +45,73 @@ class ReservationView(ViewController):
         return render_to_response('assets:views/reservation.pt', data,
             request=self._request)
     
-    def POST(self):     
-        if 'credit_card_number' in self._request.params:
-            reservation = self.make_res(*self._request.params['client_name'].split(' '),
-                self._request.params['credit_card_number'],
-                int(self._request.params['number_of_guests']),
+    def POST(self):  
+        if all( x in self._request.params for x in ['client_name', 'credit_card_number',
+            'number_of_guests', 'date_from', 'date_to'] ) :
+            
+            if all( x != '' for x in [self._request.params['client_name'], 
+                self._request.params['credit_card_number'], 
+                self._request.params['number_of_guests'],
                 self._request.params['date_from'],
-                self._request.params['date_to'])
+                self._request.params['date_to'] ] ) :
+                
+                reservation = self.make_res(*self._request.params['client_name'].split(' '),
+                    self._request.params['credit_card_number'],
+                    int(self._request.params['number_of_guests']),
+                    self._request.params['date_from'],
+                    self._request.params['date_to'])
             
+                data = {
+                    'rooms': self.rooms,
+                    'new_reservation': reservation
+                }
+            
+                return render_to_response('assets:views/reservation.pt', data,
+                    request=self._request)
+                
+            else:
+                data = {
+                    'rooms': self.rooms
+                }
+
+                return render_to_response('assets:views/reservation.pt', data,
+                    request=self._request)
+                
+
+        if all( x in self._request.params for x in ['date_from_check', 'date_to_check'] ) :                
+                
+            if all( x != '' for x in [self._request.params['date_from_check'], 
+                self._request.params['date_to_check'] ] ) :
+                
+                checkAvailable = self.check_availability(self._request.params['date_from_check'],
+                                                     self._request.params['date_to_check'])
+
+                data = {
+                    'rooms': self.rooms,
+                    'check_results': checkAvailable
+                }
+
+                return render_to_response('assets:views/reservation.pt', data,
+                    request=self._request)
+                
+            else:
+                data = {
+                    'rooms': self.rooms
+                }
+
+                return render_to_response('assets:views/reservation.pt', data,
+                    request=self._request)
+                
+                
+        else:
             data = {
-                'rooms': self.rooms,
-                'new_reservation': reservation
+                'rooms': self.rooms
             }
-            
+
             return render_to_response('assets:views/reservation.pt', data,
-                request=self._request)
+                    request=self._request)
+ 
         
-        if 'date_from_check' in self._request.params:
-            checkAvailable = self.check_availability(self._request.params['date_from_check'],
-                                                 self._request.params['date_to_check'])
-
-            data = {
-                'rooms': self.rooms,
-                'check_results': checkAvailable
-            }
-
-            return render_to_response('assets:views/reservation.pt', data,
-                request=self._request)
     
     def make_res(self, fname, lname, creditcard, num_guests, date_in, date_out):
         client = Client(*self._request.params['client_name'].split(' '),
