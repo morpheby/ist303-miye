@@ -9,6 +9,7 @@
             <p tal:repeat="reservation check_ins">
                 ${reservation.checkin}: ${reservation.client.fname} ${reservation.client.lname}
                 <a href="${request.route_path('checkinout', 'in', reservation.ID)}">Check In</a>
+                <a href="${request.route_path('checkinout', 'edit', reservation.ID)}">Edit</a>
             </p>
             <h2>Check Outs</h2>
             <p tal:repeat="reservation check_outs">

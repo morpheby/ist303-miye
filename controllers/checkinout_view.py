@@ -55,6 +55,9 @@ class CheckInOutView(ViewController):
         elif selaction == 'out':
             self.check_out(selid)
             return HTTPFound(self._request.route_path('view_bill', res_id=selid))
+        elif selaction == 'edit':  #create an edit.pt to change start/end/occ
+            self.edit_res(selid)
+            return HTTPFound(self._request.route_path('view_checkin_confirmation', res_id=selid))
     
     def check_in(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
@@ -63,6 +66,11 @@ class CheckInOutView(ViewController):
     def check_out(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
         r.checked_out = True
+        
+    def edit_res(self, reservation_id):
+        r = self.repository.find_reservation_by_id(reservation_id)
+        #add code to edit the reservation (enter a new start or end date, occupancy)
+        #r.checked_out = True
     
 
         
