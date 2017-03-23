@@ -1,3 +1,5 @@
+; Source: http://nsis.sourceforge.net/Uninstall_only_installed_files
+
 ;AddItem macro
   !macro AddItem Path
     FileWrite $UninstLog "${Path}$\r$\n"
