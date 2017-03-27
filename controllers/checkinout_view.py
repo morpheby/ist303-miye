@@ -57,8 +57,9 @@ class CheckInOutView(ViewController):
             return HTTPFound(self._request.route_path('view_bill', res_id=selid))
         elif selaction == 'edit':  #create an edit.pt to change start/end/occ
             self.edit_res(selid)
-            return HTTPFound(self._request.route_path('view_checkin_confirmation', res_id=selid))
+            return HTTPFound(self._request.route_path('editres_view', res_id=selid))
     
+            
     def check_in(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
         r.checked_in = True

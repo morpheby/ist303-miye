@@ -47,6 +47,7 @@ def create_app_config():
     config.add_route('reservation', '/reservation')
     config.add_route('checkinout', '/checkinout')
     config.add_route('checkinout_client', '/checkinout/{selected_action}/{selected_id}')
+    config.add_route('editres_view', '/editres/{res_id}')
     config.add_route('view_bill', '/bill/{res_id}')
     config.add_route('view_checkin_confirmation', '/checkin/{res_id}')
     

@@ -13,9 +13,9 @@ class Repository(object):
         self.reservations = []
 
         #create the master list of all rooms: [room #, max occ.]
-        single = [ [100 + x, 1] for x in range(16) ]
-        double = [ [200 + x, 2] for x in range(16) ]
-        quad = [ [300 + x, 4] for x in range(4) ]
+        single = [ [101 + x, 1] for x in range(16) ]
+        double = [ [201 + x, 2] for x in range(16) ]
+        quad = [ [301 + x, 4] for x in range(4) ]
         self.rooms = [Room(r,g) for r,g in single + double + quad]
 
         self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One"]]
