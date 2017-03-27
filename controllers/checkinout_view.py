@@ -74,7 +74,6 @@ class CheckInOutView(ViewController):
     def edit_res(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
         #add code to edit the reservation (enter a new start or end date, occupancy)
-        #r.checked_out = True
     
     def cancel_res(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)

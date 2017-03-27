@@ -8,11 +8,11 @@
             <h2>Check Ins</h2>
             <p tal:repeat="reservation check_ins">
                 ${reservation.checkin}: ${reservation.client.fname} ${reservation.client.lname}
-                &nbsp
+                &nbsp;
                 <a href="${request.route_path('checkinout', 'in', reservation.ID)}">Check In</a>
-                &nbsp
+                &nbsp;
                 <a href="${request.route_path('checkinout', 'edit', reservation.ID)}">Edit</a>
-                &nbsp
+                &nbsp;
                 <a href="${request.route_path('checkinout', 'cancel', reservation.ID)}">Cancel</a>
             </p>
             <h2>Check Outs</h2>
