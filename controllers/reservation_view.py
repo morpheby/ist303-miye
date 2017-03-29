@@ -124,9 +124,11 @@ class ReservationView(ViewController):
         self.repository.add_reservation(reservation)
 
         return reservation
+        
     
     def check_availability(self, date_in, date_out):
         ch = 'dates are good'
+        
         return ch
 
         
