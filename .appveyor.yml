@@ -28,15 +28,15 @@ image: Visual Studio 2015
 environment:
   matrix:
     - OS_ARCH: x86
-      PY_VERSION: Python35
+      PY_VERSION: Python36
       OS_ARCH_STR: x86
     - OS_ARCH: x86
       DEBUG: DEBUG
       OS_ARCH_STR: x86-debug
-      PY_VERSION: Python35
+      PY_VERSION: Python36
     - OS_ARCH: x64
       OS_ARCH_STR: x64
-      PY_VERSION: Python35-x64
+      PY_VERSION: Python36-x64
 
 # scripts that are called at very beginning, before repo cloning
 init:
