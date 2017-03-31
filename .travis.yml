@@ -13,7 +13,7 @@ env:
         - REPO_NAME="$(basename $(pwd))"
         - VERSION_SHORT=$(. tools/versionGen.sh -s)
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python35.sh ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./tools/homebrew-install-python36.sh ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv ENV ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then . ENV/bin/activate ; fi
 install:
