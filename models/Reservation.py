@@ -20,11 +20,13 @@ class Reservation:
         self.num_guests = num_guests
         self.checked_in = False
         self.checked_out = False
+        
+        self._checkin = None
 
         self.checkin = checkinDate
         self.checkout = checkoutDate
         
-        [self.nights,self.nightly_rates,self.ttlcost] = self.calc_cost()
+        # [self.nights,self.nightly_rates,self.ttlcost] = self.calc_cost()
     
     def __str__(self):
         return "Reservation (%s, %s): #%d for client %d from %s to %s with %d guest(s) - $%d" % \
@@ -43,10 +45,11 @@ class Reservation:
     
     @checkin.setter
     def checkin(self, value):
+        self._checkin = None
         if type(value) == str:
             try:
-                parser.parse(self.checkin)
-            except e as ValueError:
+                self._checkin = parser.parse(value)
+            except ValueError as e:
                 raise exc.DateParserError(value, e)
         elif type(value) == datetime.datetime:
             self._checkin = value
