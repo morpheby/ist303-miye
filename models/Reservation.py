@@ -2,6 +2,7 @@
 from .Client import Client
 from dateutil import parser
 import datetime
+import support.exceptions as exc
 
 #Static HOTEL variables - base prices are weekday, off-season
 hotel_baseprice = {'Single': 140, 'Double': 260, 'Quad': 480}
@@ -16,11 +17,13 @@ class Reservation:
         self.ID = Reservation.ID
         Reservation.ID += 1
         self.clientID = clientID
-        self.checkin = checkinDate
-        self.checkout = checkoutDate
         self.num_guests = num_guests
         self.checked_in = False
         self.checked_out = False
+
+        self.checkin = checkinDate
+        self.checkout = checkoutDate
+        
         [self.nights,self.nightly_rates,self.ttlcost] = self.calc_cost()
     
     def __str__(self):
@@ -28,6 +31,31 @@ class Reservation:
             ("checked in" if self.checked_in else "not checked in",
             "checked out" if self.checked_out else "not checked out", self.ID, self.clientID,
             self.checkin, self.checkout, self.num_guests, self.ttlcost)
+
+    @property
+    def checkin(self):
+        "Date of checkin"
+        return self._checkin
+       
+    @property 
+    def checkin_str(self):
+        return 
+    
+    @checkin.setter
+    def checkin(self, value):
+        if type(value) == str:
+            try:
+                parser.parse(self.checkin)
+            except e as ValueError:
+                raise exc.DateParserError(value, e)
+        elif type(value) == datetime.datetime:
+            self._checkin = value
+        else:
+            raise ValueError(f"Invalid date object: {value!r}")
+    
+    @checkin.deleter
+    def checkin(self):
+        del self._checkin
 
     def calc_cost(self):
         #calc the base price based on occupancy

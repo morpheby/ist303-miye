@@ -17,3 +17,5 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 from .singleton import Singleton
+import exceptions
+

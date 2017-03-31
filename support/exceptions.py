@@ -1,5 +1,5 @@
 """
- cfgdefs.py
+ exceptions.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -16,13 +16,18 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA 
 """
 
-import os
+import traceback
+import sys
+import config
 
-APP_NAME = 'Mud in Your Eye CRM'
+class DateParserError(Exception):
+    """Represents error while parsing date"""
+    def __init__(self, dateStr, underlying):
+        super(DateParserException, self).__init__()
+        self.dateStr = dateStr
+        self.underlying = underlying
+        
+    def __str__(self):
+        return "Error parsing date {!r}. Exception: {}".format(self.dateStr, self.underlying)
+        
 
-
-# Setup DEBUG variable config
-if "DEBUG" in os.environ and os.environ.get("DEBUG") != 0:
-    DEBUG = True
-else:
-    DEBUG = False
