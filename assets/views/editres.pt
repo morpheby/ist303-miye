@@ -1,0 +1,27 @@
+<metal:main use-macro="master">
+    <metal:slot fill-slot="title">
+        <title>Edit Reservation for ${reservation.client.fname} ${reservation.client.lname} - ${config.APP_NAME}</title>
+    </metal:slot>
+    <metal:slot fill-slot="content">
+        <h1 id="conf_title">Edit reservation for ${reservation.client.fname} ${reservation.client.lname} (R# ${reservation.ID})</h1>
+        <div id="edit_res_form">
+            <h2>Current Reservation Information</h2>
+            <p>${reservation.checkin} to ${reservation.checkout} (${len(nights)} Nights)</p>
+            <p>Number of guests: ${reservation.num_guests}</p>
+            <p>Total room cost: $$${reservation.ttlcost}</p>
+            <h2>New Dates</h2>
+            <form action="editres" method="post" accept-charset="utf-8">
+                <p>
+
+                    <label for="checkin">Check In</label>
+                    <input type="text" name="checkin" value=${reservation.checkin} id="checkin">
+                </p>
+                <p>
+                    <label for="checkout">Check Out</label>
+                    <input type="text" name="checkout" value=${reservation.checkout} id="checkout">
+                </p>
+                <p><input type="submit" value="Edit reservation &rarr;"></p>
+            </form>
+        </div>
+    </metal:slot>
+</metal:main>

@@ -23,6 +23,6 @@ from .SpaRes import SpaRes
 from .Repository import Repository
 
 def init_helpers():
-    Reservation.client = property(lambda clientID: Repository().find_client_by_id(clientID))
+    Reservation.client = property(lambda self: Repository.Instance().find_client_by_id(self.clientID))
 
 init_helpers()

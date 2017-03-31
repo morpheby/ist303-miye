@@ -23,7 +23,7 @@ DIST_TARGET = $(DISTDIR)/miye
 
 PYTHON_INPUT = main.py
 
-ADDITIONAL_PY_IMPORTS = views support
+ADDITIONAL_PY_IMPORTS = support
 
 DATA_FILES = assets/
 
@@ -31,25 +31,35 @@ EXCLUDE_MODULES = assets
 
 NAME = miye
 
-PYI_FLAGS = --name="$(NAME)" -w
+PYI_FLAGS = --name="$(NAME)"
 
 ENV =
 
-SPEC_FIXES =
+SPEC_FIXES = "\#\n"
 
 ifdef DEBUG
 	PYI_FLAGS += -d
 	ENV += PYRAMID_DEBUG_TEMPLATES=1
-	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\1\\\n\
+	SPEC_FIXES += 's/EXE\(([^()]+)/EXE(\\1\\\n\
 			options,/\n'
-	SPEC_FIXES += '2i\\\n' "\
-			options=[ ('v', None, 'OPTION') ]" '\n'
+	SPEC_FIXES += '2i\\\n'"options=[ ('v', None, 'OPTION') ]" '\n'
+endif
+
+ifneq ($(TARGET_OS),win32)
+	PYI_FLAGS += -w
+endif
+
+ifeq ($(TARGET_OS),win32)
+ifndef DEBUG
+	PYI_FLAGS += -w
+endif
 endif
 
 ifeq ($(TARGET_OS),Darwin)
    DIST_TARGET += $(DISTDIR)/miye.app
    PATH_SEP =:
-   SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\1\\\n\
+   PACKAGE_CMD = zip -vr $(NAME).zip $(NAME).app
+   SPEC_FIXES += 's/BUNDLE\(([^()]+)/BUNDLE(\\1\
 		info_plist={\\\n\
 			"NSHighResolutionCapable": "True",\\\n\
 			"NSPrincipalClass": "NSApplication",\\\n\
@@ -59,16 +69,17 @@ endif
 
 ifeq ($(TARGET_OS),Linux)
    PATH_SEP =:
+   PACKAGE_CMD = tar -cvvjf $(NAME).tar.bz2 $(NAME)
 endif
 
 ifeq ($(TARGET_OS),win32)
    PATH_SEP =;
-   SPEC_FIXES += 's/Analysis\(([^()]+)/Analysis(\1\\\n\
-		win_no_prefer_redirects=False,\\\n\
-         win_private_assemblies=False,/\n'
-   SPEC_FIXES += 's/a.binaries/a.binaries\
-         '"+ [('msvcp120.dll', 'C:\\\\Windows\\\\System32\\\\msvcp120.dll', 'BINARY'),\
-          ('msvcr120.dll', 'C:\\\\Windows\\\\System32\\\\msvcr120.dll', 'BINARY')]/\n"
+   SPEC_FIXES += 's/win_no_prefer_redirects=(True|False)/win_no_prefer_redirects=False/\n'
+   SPEC_FIXES += 's/win_private_assemblies=(True|False)/win_private_assemblies=False/\n'
+   SPEC_FIXES += 's/a\\.binaries/a.binaries\
+         '"+ [('msvcp120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcp120.dll', 'BINARY'),\
+          ('msvcr120.dll', 'C:\\\\\\\\Windows\\\\\\\\System32\\\\\\\\msvcr120.dll', 'BINARY')]/\n"
+   PACKAGE_CMD = cd ../tools/nsis && $(MAKE) package
 endif
 
 PYI_SPEC_FLAGS = $(PYI_FLAGS) --additional-hooks-dir=tools/pyinst_hooks \
@@ -91,12 +102,18 @@ requirements.log: requirements.txt
 $(NAME).spec: $(PYTHON_INPUT) */*.py
 	pyi-makespec $(PYI_SPEC_FLAGS) $(PYTHON_INPUT)
 	mv $(NAME).spec $(NAME).spec-tmp
-	printf $(SPEC_FIXES) > spec-fixes
+	printf "%b" $(SPEC_FIXES) > spec-fixes
 	sed -E -f spec-fixes \
 	 < $(NAME).spec-tmp > $(NAME).spec-new && \
+	 echo ">>>>" && \
+	 cat spec-fixes && \
+	 echo "<<<<" && \
 	 mv $(NAME).spec-new $(NAME).spec && \
 	 rm $(NAME).spec-tmp spec-fixes || \
 	 rm $(NAME).spec-tmp spec-fixes $(NAME).spec-new $(NAME).spec
+	 @echo ">>>>"
+	 cat $(NAME).spec
+	 @echo "<<<<"
 	 test -f $(NAME).spec
 	
 $(DIST_TARGET): $(NAME).spec $(PYTHON_INPUT) */*.py
@@ -108,21 +125,24 @@ $(DISTDIR)/.COMPLETED: $(DIST_TARGET)
 
 dist: all $(DISTDIR)/.COMPLETED
 
+package: dist
+	-rm -f dist/$(NAME).{zip,tar.bz2} dist/setup.exe
+	cd dist && $(PACKAGE_CMD)
+
 test: all
 
 run_real:
 	-${ENV} PYRAMID_RELOAD_TEMPLATES=1 waitress-serve '--listen=*:8041' --call --expose-tracebacks main:create_wsgi_app
 
 run: all
-	(																 \
+	-(																 \
 		sleep 5														;\
 		if [[ $(TARGET_OS) == Darwin ]] ; then	 					 \
 			open "http://127.0.0.1:8041"							;\
 		elif [[ $(TARGET_OS) == win32 ]] ; then	 					 \
 			start "http://127.0.0.1:8041"							;\
 		fi															;\
-	) &
-	-$(MAKE) run_real
+	) & $(MAKE) run_real ; kill %1
 	
 clean_target:
 	rm -rf $(DIST_TARGET) build/
@@ -130,9 +150,11 @@ clean_target:
 clean: clean_target
 	rm -f $(DISTDIR)/.COMPLETED
 	rm -f $(NAME).spec
+	cd tools/nsis && $(MAKE) clean
 	
 clean_pycache:
 	rm -rf `find . -name __pycache__` `find . -name "*.pyc"`
 	
 distclean: clean clean_pycache
 	rm -rf *.log *.spec $(DISTDIR)
+	cd tools/nsis && $(MAKE) distclean

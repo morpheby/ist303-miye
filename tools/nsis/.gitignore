@@ -1,0 +1,7 @@
+
+license.txt
+generated.properties
+installer.nsi
+*.tmp
+filelist.txt
+dirlist.txt

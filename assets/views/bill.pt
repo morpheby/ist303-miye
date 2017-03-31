@@ -1,0 +1,19 @@
+<metal:main use-macro="master">
+    <metal:slot fill-slot="title">
+        <title>Bill for ${reservation.client.fname} ${reservation.client.lname} - ${config.APP_NAME}</title>
+    </metal:slot>
+    <metal:slot fill-slot="content">
+        <h1 id="bill_title">Bill for ${reservation.client.fname} ${reservation.client.lname} (R# ${reservation.ID})</h1>
+        <div id="bill">
+            <h2>Provided services</h2>
+            <p tal:repeat="stay zip(nights,rates)">
+                ${stay[0].date().isoformat()} &mdash; $$${stay[1]}
+            </p>
+            <div id=line_sep></div>
+            <p><em>Total:</em> $$${total}</p>
+        </div>
+        <div id="no_print">
+            <a href="#" onclick="window.print()">Print</a>
+        </div>
+    </metal:slot>
+</metal:main>

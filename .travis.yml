@@ -5,6 +5,8 @@ matrix:
           python: 3.5
         - os: osx
           language: generic
+git:
+    depth: 300
 env:
     global:
         - VERSION="$(. tools/versionGen.sh ${TRAVIS_BUILD_NUMBER})"
@@ -20,16 +22,19 @@ script:
     - make test
     - make dist
 before_deploy:
-    - tar -cvvjf "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" dist/*
+    - make package
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then PKG_EXT=zip ; fi
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then PKG_EXT=tar.bz2 ; fi
+    - cp dist/*.${PKG_EXT} "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.${PKG_EXT}"
     - echo "PROJECT=${REPO_NAME}" > generated.properties
     - echo "VERSIONSHORT=${VERSION_SHORT}" >> generated.properties
-    - echo "FILENAME=$(echo "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2" | sed -E 's/\(/\\\\(/g' | sed -E 's/\)/\\\\)/g' )" >> generated.properties
+    - echo "FILENAME=$(echo "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.${PKG_EXT}" | sed -E 's/\(/\\\\(/g' | sed -E 's/\)/\\\\)/g' )" >> generated.properties
     - tools/gen-config.sh .bintray.json.in generated.properties .bintray.json -h
 deploy:
     - provider: releases
       api_key:
         secure: 0b3L1YlhHnJ6LWdf7BRMgCtXLjPU4+xxbyiawa5oS38q4owWvyXChfUze5tnK/Xm00jmEZ+dMdJ5xM7FiXEGOulwhEyTSylIUrbBPHoASe6kpSMk/sgs98i1tRJ/Ze4yMOk2mADB2HTHinn9w1BOYLDemNMAFzY51BJy6r9e45hZqFPkafTcYFj0KN4yYVBKTFcwFhelr7zo63Xzl51HhPfOzp92ugreInqfO95tOYQOxmdHE83WtxO7+vgMtKwXjM/+1Y97eZUJS89lAoOyxI6sCiEuoINQNJhomHtfu3qM6BJOiznZR95CLh7IFcBN3tEzxIeFz2fz5ZpS6WiAUwwaMMAO9aauu64X46+k2F1+RNwxkMGqTCJOkqDiHrLA6z7rK2sWmsR5SNxHzvR1L1Ytfd1bZJvBbfQHL6/KjhzZIyS1OpZ6PR9uxPxCxQpkY9f/chWiZenOUizF1LbHxjVpLmbvBKGh0ZJXgOtDJcAmxCYJtsYz9BbE4MUP6Nbe1gfYVPZ/WCWfroCrAmm5/7n0JpahgBkwHCISawWp/4Jmh6u+vqLt8c1Ik8Ubw4PoT2UxHxG7d7p4VbpaVjczVTd0IiBQ4quqESFh4XP3NdBALMPa2GlKvu5PU/e+5NzM0Rg5OXXYTRznhZUh0AYk2Wudxzc10QJeV75pzJBZ094=
-      file: "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.tar.bz2"
+      file: "${REPO_NAME}-${VERSION}-${TRAVIS_OS_NAME}.${PKG_EXT}"
       overwrite: true
       skip_cleanup: true
       on:

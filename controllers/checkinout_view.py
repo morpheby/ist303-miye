@@ -31,33 +31,53 @@ from .view_controller import ViewController
 @view_config(route_name='checkinout_client')
 class CheckInOutView(ViewController):
     
-    def __init__(self, request, action = None, id = None):
+    def __init__(self, request):
         super(CheckInOutView, self).__init__(request)
     
-        self.repository = Repository()
-        self.selected_id = id
-        self.selected_action = action
+        self.repository = Repository.Instance()
     
     def GET(self):
-        if not self.selected_id:
+        try:
+            selid = int(self.selected_id)
+            selaction = self.selected_action
+        except AttributeError:
             data = {
-                'check_ins': self.repository.reservations,
+                'check_ins': self.repository.find_reservations_checked(c_in=False, c_out=False),
+                'check_outs': self.repository.find_reservations_checked(c_in=True, c_out=False),
             }
-            
+        
             return render_to_response('assets:views/checkinout.pt', data,
                 request=self._request)
-        else:
-            if self.selected_action == 'in':
-                check_in(self.selected_id)
-            elif self.selected_action == 'out':
-                raise Exception()
-            return render_to_response('assets:views/checkinout.pt', data,
-                request=self._request)
+
+        if selaction == 'in':
+            self.check_in(selid)
+            return HTTPFound(self._request.route_path('view_checkin_confirmation', res_id=selid))
+        elif selaction == 'out':
+            self.check_out(selid)
+            return HTTPFound(self._request.route_path('view_bill', res_id=selid))
+        elif selaction == 'edit':  
+            self.edit_res(selid)
+            return HTTPFound(self._request.route_path('editres_view', res_id=selid))
+        elif selaction == 'cancel':  #create an cancelres.pt, send back to checkinout view
+            self.cancel_res(selid)
+            return HTTPFound(self._request.route_path('checkinout', res_id=selid))
     
+            
     def check_in(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
-        r.checked_in = 1
+        r.checked_in = True
     
+    def check_out(self, reservation_id):
+        r = self.repository.find_reservation_by_id(reservation_id)
+        r.checked_out = True
+        
+    def edit_res(self, reservation_id):
+        r = self.repository.find_reservation_by_id(reservation_id)
+        #add code to edit the reservation (enter a new start or end date, occupancy)
+    
+    def cancel_res(self, reservation_id):
+        r = self.repository.find_reservation_by_id(reservation_id)
+        #add code to cancel the reservation (enter a new start or end date, occupancy)
 
         
 @subscriber(GracefulShutdown)

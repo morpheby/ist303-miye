@@ -11,6 +11,9 @@ class Client(Person):
         self.lname = lname
         self.creditcard = creditcard
         self.type = 'client'
+        
+    def __str__(self):
+        return "Client: %s %s, #%d (CC: %r)" % (self.fname, self.lname, self.ID, self.creditcard)
     
 
 

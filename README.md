@@ -18,11 +18,15 @@ If you prefer to build it yourself or need to package it, follow these instructi
 - To provide some debug info during execution, add flag `DEBUG` to make invocation (i.e. `make DEBUG=1 dist`)
 - To start the server in standalone mode (without the client window), run `make run`. Browser window shall open.
   * To stop, press Ctrl-C
+- To create a package, run `make package`. This will create an archive with the distribution in `dist/`.
 
 ### Windows notes ###
 
 - You will need GNU Make for the build (included in [MSYS](http://msys2.github.io))
 - [Detailed Instructions](docs/win_installation.md)
+- `package` target requires installed [NSIS](http://nsis.sourceforge.net/Main_Page). Default location is considered to
+  be `C:\Program Files(x86)\NSIS`; if it is not your installation location, set `NSIS_HOME` environment variable
+  to the correct path in Unix format before running `make package` (i.e. `NSIS_HOME="/c/Program Files/NSIS" make package`)
 
 ### macOS notes ###
 

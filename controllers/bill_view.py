@@ -1,5 +1,5 @@
 """
- view_controller.py
+ bill_view.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -21,36 +21,33 @@ import cgi
 from pyramid.httpexceptions import HTTPFound
 from pyramid.response import Response
 from pyramid.renderers import render_to_response
-from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
-from models.Room import Room
+from models import Room, Repository, Client, Reservation
+from .view_controller import ViewController
 
-
-class ViewController(object):
+@view_config(route_name='view_bill')
+class BillView(ViewController):
     
     def __init__(self, request):
-        self._request = request
-        self._method = request.method
-        
-    def __getattr__(self, attr):
-        try:
-            return self._request.matchdict[attr]
-        except KeyError as e:
-            raise AttributeError(attr)
+        super(BillView, self).__init__(request)
     
-    def POST(self):
-        raise HTTPNotFound()
+        self.repository = Repository.Instance()
     
     def GET(self):
-        raise HTTPNotFound()
-    
-    def __call__(self):
-        if self._method == 'GET':
-            return self.GET()
-        elif self._method == 'POST':
-            return self.POST()
+        reservation = self.repository.find_reservation_by_id(int(self.res_id))
+        
+        data = {
+            'nights': reservation.nights,
+            'rates': reservation.nightly_rates,
+            'total': reservation.ttlcost,
+            'reservation': reservation,
+        }
+        
+        return render_to_response('assets:views/bill.pt', data,
+            request=self._request)
+
         
 @subscriber(GracefulShutdown)
 def shutdown(event):

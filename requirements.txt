@@ -9,6 +9,8 @@ git+https://github.com/morpheby/venusian.git@compiled_support
 
 pyramid_chameleon==0.3
 
+python-dateutil==2.6.0
+
 # OS X
 
 pywebview[cocoa]==1.4; sys_platform == 'darwin'

@@ -5,7 +5,7 @@
     <title metal:define-slot="title"
          tal:content="context/title | python:None"> Title goes here </title>
     <meta tal:attributes="description context/description | python:None">
-    <script src="scripts/webfont.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/scripts/webfont.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         WebFont.load({
             custom: {
@@ -16,6 +16,7 @@
     </script>
     <link rel="stylesheet" href="/css/base.css" type="text/css"/>
     <link rel="stylesheet" href="/css/master.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="/css/print.css" type="text/css" media="print"/>
     <metal:slot metal:define-slot="script" />
     <metal:slot metal:define-slot="css" />
 </head>
