@@ -136,6 +136,9 @@ run_real:
 
 run: all
 	-(																 \
+		if [[ x$(NO_OPEN) != x ]] ; then								 \
+			exit 0													;\
+		fi															;\
 		sleep 5														;\
 		if [[ $(TARGET_OS) == Darwin ]] ; then	 					 \
 			open "http://127.0.0.1:8041"							;\
