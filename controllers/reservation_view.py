@@ -90,6 +90,7 @@ class ReservationView(ViewController):
                     'check_dates': dates,
                     'date_from_check': self._request.params['date_from_check'],
                     'date_to_check': self._request.params['date_to_check'],
+                    'rooms': rooms
                 })
 
                 return render_to_response('assets:views/reservation.pt', self.data,

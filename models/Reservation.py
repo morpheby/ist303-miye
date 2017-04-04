@@ -35,9 +35,10 @@ class Reservation(object):
     def __str__(self):
         checkedin = "checked in" if self.checked_in else "not checked in"
         checkedout = "checked out" if self.checked_out else "not checked out"
-        guests = ', '.join(self.guest_list)
+        guests = ', '.join([str(g) for g in self.guest_list])
         return f"Reservation ({checkedin}, {checkedout}): #{self.ID} for client {self.client}" \
-            " with guests [{guests}] from {self.checkin} to {self.checkout} ({self.nights}) - ${self.total_cost}"
+            f" with guests [{guests}] in room {self.room} from {self.checkin} to" \
+            f" {self.checkout} ({self.nights}) - ${self.total_cost}"
 
     @property
     def nights(self):

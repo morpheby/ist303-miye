@@ -22,7 +22,7 @@ class Repository(object):
         self.rooms = [Room(r,g) for r,g in single + double + quad]
 
         self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One", "Third Also"]]
-        self.reservations = [Reservation(self.clients[i].ID, f"{i+1}/1/2005", f"{i+1}/2/2005", self.rooms[i].ID, [self.clients[i].ID]) for i in range(len(self.clients))]
+        self.reservations = [Reservation(self.clients[i].ID, f"{i+1}/1/2005", f"{i+1}/20/2005", self.rooms[i].ID, [self.clients[i].ID]) for i in range(len(self.clients))]
         
         # After loading reservations, it is best to rebuild ReservationSearcher
         self.res_srchr = ReservationSearcher(self.reservations)
@@ -32,6 +32,7 @@ class Repository(object):
     
     def add_reservation(self, reservation):
         self.reservations += [reservation]
+        self.res_srchr.add_reservation(reservation)
     
     def find_client_by_id(self, clientID):
         found = [c for c in self.clients if c.ID == clientID]
