@@ -24,5 +24,7 @@ from .Repository import Repository
 
 def init_helpers():
     Reservation.client = property(lambda self: Repository.Instance().find_client_by_id(self.clientID))
+    Reservation.room = property(lambda self: Repository.Instance().find_room_by_id(self.roomID))
+    Reservation.guest_list = property(lambda self: [Repository.Instance().find_client_by_id(c) for c in self.guest_ids])
 
 init_helpers()

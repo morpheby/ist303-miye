@@ -11,15 +11,16 @@ class Repository(object):
         self.rooms = []
         self.clients = []
         self.reservations = []
-
+        
+    def post_init(self):
         #create the master list of all rooms: [room #, max occ.]
         single = [ [101 + x, 1] for x in range(16) ]
         double = [ [201 + x, 2] for x in range(16) ]
         quad = [ [301 + x, 4] for x in range(4) ]
         self.rooms = [Room(r,g) for r,g in single + double + quad]
 
-        self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One"]]
-        self.reservations = [Reservation(c.ID, '1/1/1997', '1/2/1997', 1) for c in self.clients]
+        self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One", "Third Also"]]
+        self.reservations = [Reservation(self.clients[i].ID, '1/1/1997', '1/2/1997', self.rooms[i].ID, [self.clients[i].ID]) for i in range(len(self.clients))]
 
     def add_client(self, client):
         self.clients += [client]
@@ -29,6 +30,13 @@ class Repository(object):
     
     def find_client_by_id(self, clientID):
         found = [c for c in self.clients if c.ID == clientID]
+        if len(found) == 0:
+            return None
+        else:
+            return found[0]
+    
+    def find_room_by_id(self, roomID):
+        found = [r for r in self.rooms if r.ID == roomID]
         if len(found) == 0:
             return None
         else:

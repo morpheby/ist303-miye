@@ -1,5 +1,5 @@
 """
- __init__.py
+ events.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -16,6 +16,16 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA 
 """
 
-from .singleton import Singleton
-from .util import parse_date_or_not
+from dateutil import parser
 
+def parse_date_or_not(date):
+    if type(date) == str:
+        try:
+            return parser.parse(date)
+        except ValueError as e:
+            raise exc.DateParserError(date, e)
+    elif type(date) == datetime.datetime:
+        return date
+    else:
+        raise ValueError(f"Invalid date object: {date!r}")
+        
