@@ -91,7 +91,7 @@ class CostTraverserBase(object):
         return self.getwalker(cost)(cost)
         
     def __call__(self):
-        self.walk(self.cost)
+        return self.walk(self.cost)
             
 class TotalTraverser(CostTraverserBase):
     """
