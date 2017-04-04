@@ -24,7 +24,7 @@ SAFETY_DATE_GAP = 365
 class ReservationSearcher(object):
     """Facilitates segment tree for looking for free rooms"""
     def __init__(self, reservations):
-        super(ReservationTree, self).__init__()
+        super(ReservationSearcher, self).__init__()
         
         min_date = min([r.checkin for r in reservations] + [datetime.datetime.now()])
         max_date = max([r.checkout for r in reservations] + [datetime.datetime.now()])

@@ -35,7 +35,7 @@ class SegmentTree(object):
     class TreeNode(object):
         """SegmentTree Node"""
         def __init__(self, start, end):
-            super(TreeNode, self).__init__()
+            super(SegmentTree.TreeNode, self).__init__()
             self.start = start
             self.end = end
             self.value = None
@@ -46,7 +46,7 @@ class SegmentTree(object):
         super(SegmentTree, self).__init__()
         
         def build_tree(values):
-            node = TreeNode(values[0], values[-1])
+            node = SegmentTree.TreeNode(values[0], values[-1])
             node.left = build_tree(values[:len(values)//2])
             node.right = build_tree(values[len(values)//2:])
             return node
