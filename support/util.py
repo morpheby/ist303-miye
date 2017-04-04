@@ -76,22 +76,22 @@ class SegmentTree(object):
         
     def act_segment(self, start, end, f_act):
         def act(node):
-            if SEGTREE_DEBUG: print(f"node: {node.start}:{node.end}, act: {start}:{end}", end = ' -- ')
+            if config.SEGTREE_DEBUG: print(f"node: {node.start}:{node.end}, act: {start}:{end}", end = ' -- ')
             if (self.f_diff(node.start, start) < 0 and self.f_diff(start, node.end) <= 0)   \
                     or (self.f_diff(node.start, end) <= 0 and self.f_diff(end, node.end) < 0):
-                if SEGTREE_DEBUG: print("down")
+                if config.SEGTREE_DEBUG: print("down")
                 a = act(node.left) if node.left else 0
                 b = act(node.right) if node.right else 0
                 return a + b
             elif self.f_diff(start, node.start) <= 0 and self.f_diff(node.end, end) <= 0:
-                if SEGTREE_DEBUG: print("act")
+                if config.SEGTREE_DEBUG: print("act")
                 node.value = f_act(node.value)
                 return self.f_diff(node.end, node.start)
             else:
-                if SEGTREE_DEBUG: print("none")
+                if config.SEGTREE_DEBUG: print("none")
                 return 0
                 
-        if SEGTREE_DEBUG: print(f"tree: {self.start}:{self.end}, act: {start}:{end}")
+        if config.SEGTREE_DEBUG: print(f"tree: {self.start}:{self.end}, act: {start}:{end}")
         
         acted = act(self.root)
         required = self.f_diff(end, start)
