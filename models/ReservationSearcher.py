@@ -18,6 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 
 from support import SegmentTree
 import datetime
+import config
 
 SAFETY_DATE_GAP = 180
 
@@ -31,9 +32,13 @@ class ReservationSearcher(object):
 
         self.build_tree_for_dates(min_date, max_date)
         
+        for r in reservations:
+            self.add_reservation(r)
+        
     def add_reservation(self, res):
-        def add(rooms):
-            return rooms + [res.roomID]
+        def add(node_value, sum_value):
+            if config.RESFREE_DEBUG: print("Add", res, node_value, sum_value)
+            return node_value + [res.roomID]
         try:
             self.tree.act_segment(res.checkin, res.checkout, add)
         except IndexError:
@@ -41,8 +46,8 @@ class ReservationSearcher(object):
             self.tree.act_segment(res.checkin, res.checkout, add)
         
     def remove_reservation(self, res):
-        def remove(rooms):
-            return [r for r in rooms if r != res.roomID]
+        def remove(node_value, sum_value):
+            return [r for r in node_value if r != res.roomID]
         try:
             self.tree.act_segment(res.checkin, res.checkout, remove)
         except IndexError:
@@ -51,15 +56,16 @@ class ReservationSearcher(object):
         
     def get_occupied_rooms(self, checkin, checkout):
         oc_rooms = set()
-        def rooms_acc(rooms):
+        def rooms_acc(node_value, sum_value):
             nonlocal oc_rooms
-            oc_rooms = oc_rooms.union(rooms)
-            return rooms # do not modify tree
+            if config.RESFREE_DEBUG: print(sum_value)
+            oc_rooms = oc_rooms.union(sum_value)
+            return node_value # do not modify tree
         try:
-            self.tree.act_segment(checkin, checkout, rooms_acc)
+            self.tree.act_segment(checkin, checkout, rooms_acc, traverse = True)
         except IndexError:
             self.extend(checkin, checkout)
-            self.tree.act_segment(checkin, checkout, rooms_acc)
+            self.tree.act_segment(checkin, checkout, rooms_acc, traverse = True)
         return oc_rooms
             
     def build_tree_for_dates(self, start, end):

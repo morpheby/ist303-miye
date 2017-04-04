@@ -74,18 +74,25 @@ class SegmentTree(object):
     def end(self):
         return self.root.end
         
-    def act_segment(self, start, end, f_act):
-        def act(node):
+    def act_segment(self, start, end, f_act, traverse = False):
+        """
+        f_act(node_value, sum_value) -> new_node_value
+        """
+        def act(node, sum_value):
             if config.SEGTREE_DEBUG: print(f"node: {node.start}:{node.end}, act: {start}:{end}", end = ' -- ')
             if (self.f_diff(node.start, start) < 0 and self.f_diff(start, node.end) <= 0)   \
                     or (self.f_diff(node.start, end) <= 0 and self.f_diff(end, node.end) < 0):
                 if config.SEGTREE_DEBUG: print("down")
-                a = act(node.left) if node.left else 0
-                b = act(node.right) if node.right else 0
+                a = act(node.left, sum_value + node.value) if node.left else 0
+                b = act(node.right, sum_value + node.value) if node.right else 0
                 return a + b
             elif self.f_diff(start, node.start) <= 0 and self.f_diff(node.end, end) <= 0:
                 if config.SEGTREE_DEBUG: print("act")
-                node.value = f_act(node.value)
+                if traverse and node.left != None and node.right != None:
+                    act(node.left, sum_value + node.value)
+                    act(node.right, sum_value + node.value)
+                else:
+                    node.value = f_act(node.value, sum_value + node.value)
                 return self.f_diff(node.end, node.start)
             else:
                 if config.SEGTREE_DEBUG: print("none")
@@ -93,7 +100,7 @@ class SegmentTree(object):
                 
         if config.SEGTREE_DEBUG: print(f"tree: {self.start}:{self.end}, act: {start}:{end}")
         
-        acted = act(self.root)
+        acted = act(self.root, self.initial)
         required = self.f_diff(end, start)
         if acted != required:
             raise IndexError(f"SegmentTree doesn't cover all values ({acted} out of {required})")
