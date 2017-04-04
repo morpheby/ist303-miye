@@ -17,13 +17,14 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 from dateutil import parser
+from .exceptions import DateParserError
 
 def parse_date_or_not(date):
     if type(date) == str:
         try:
             return parser.parse(date)
         except ValueError as e:
-            raise exc.DateParserError(date, e)
+            raise DateParserError(date, e)
     elif type(date) == datetime.datetime:
         return date
     else:
@@ -46,9 +47,15 @@ class SegmentTree(object):
         super(SegmentTree, self).__init__()
         
         def build_tree(values):
+            if len(values) == 0:
+                return None
             node = SegmentTree.TreeNode(values[0], values[-1])
-            node.left = build_tree(values[:len(values)//2])
-            node.right = build_tree(values[len(values)//2:])
+            if len(values) > 1:
+                node.left = build_tree(values[:len(values)//2])
+                node.right = build_tree(values[len(values)//2:])
+            else:
+                node.left = None
+                node.right = None
             return node
         
         self.f_diff = f_diff
@@ -65,8 +72,8 @@ class SegmentTree(object):
     def act_segment(start, end, f_act):
         def act(node, start, end):
             if self.f_diff(node.start - start) < 0 or self.f_diff(end, node.end) < 0:
-                a = act(node.left)
-                b = act(node.right)
+                a = act(node.left) if node.left else 0
+                b = act(node.right) if node.right else 0
                 return a + b
             elif self.f_diff(start, node.start) <= 0 and self.f_diff(node.end, end) <= 0:
                 node.value = f_act(node.value)

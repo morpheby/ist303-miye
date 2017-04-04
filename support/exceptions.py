@@ -23,7 +23,7 @@ import config
 class DateParserError(Exception):
     """Represents error while parsing date"""
     def __init__(self, dateStr, underlying):
-        super(DateParserException, self).__init__()
+        super(DateParserError, self).__init__()
         self.dateStr = dateStr
         self.underlying = underlying
         
