@@ -27,6 +27,7 @@ from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from models import Room, Repository, Client, Reservation
 from .view_controller import ViewController
+from support import parse_date_or_not
 
 @view_config(route_name='reservation')
 class ReservationView(ViewController):
@@ -83,12 +84,12 @@ class ReservationView(ViewController):
             if all( x != '' for x in [self._request.params['date_from_check'], 
                 self._request.params['date_to_check'] ] ) :
                 
-                checkAvailable = self.check_availability(self._request.params['date_from_check'],
+                dates, rooms = self.check_availability(self._request.params['date_from_check'],
                                                      self._request.params['date_to_check'])
 
                 data = {
-                    'rooms': self.rooms,
-                    'check_results': checkAvailable
+                    'rooms': rooms,
+                    'check_dates': dates
                 }
 
                 return render_to_response('assets:views/reservation.pt', data,
@@ -126,10 +127,13 @@ class ReservationView(ViewController):
         return reservation
         
     
-    def check_availability(self, date_in, date_out):
-        ch = 'dates are good'
+    def check_availability(self, date_in_s, date_out_s):
+        date_in = parse_date_or_not(date_in_s)
+        date_out = parse_date_or_not(date_out_s)
         
-        return ch
+        rooms = Repository.Instance().find_free_rooms_in_dates(date_in, date_out)
+        
+        return ([date_in, date_out], rooms)
 
         
 @subscriber(GracefulShutdown)
