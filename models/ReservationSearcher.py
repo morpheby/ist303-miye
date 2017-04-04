@@ -19,7 +19,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 from support import SegmentTree
 import datetime
 
-SAFETY_DATE_GAP = 365
+SAFETY_DATE_GAP = 180
 
 class ReservationSearcher(object):
     """Facilitates segment tree for looking for free rooms"""
@@ -49,23 +49,24 @@ class ReservationSearcher(object):
             self.extend(res.checkin, res.checkout)
             self.tree.act_segment(res.checkin, res.checkout, remove)
         
-    def get_occupied_rooms(self, res):
-        oc_rooms = {}
+    def get_occupied_rooms(self, checkin, checkout):
+        oc_rooms = set()
         def rooms_acc(rooms):
             nonlocal oc_rooms
             oc_rooms = oc_rooms.union(rooms)
             return rooms # do not modify tree
         try:
-            self.tree.act_segment(res.checkin, res.checkout, rooms_acc)
+            self.tree.act_segment(checkin, checkout, rooms_acc)
         except IndexError:
-            self.extend(res.checkin, res.checkout)
-            self.tree.act_segment(res.checkin, res.checkout, rooms_acc)
+            self.extend(checkin, checkout)
+            self.tree.act_segment(checkin, checkout, rooms_acc)
+        return oc_rooms
             
     def build_tree_for_dates(self, start, end):
         diff = (end - start).days + SAFETY_DATE_GAP
         all_days = [start + datetime.timedelta(days=i) for i in range(diff)]
         
-        self.tree = SegmentTree(all_days, f_diff = lambda a,b: (a-b).days)
+        self.tree = SegmentTree(all_days, initial = [], f_diff = lambda a,b: (a-b).days)
         
         
     def extend(self, start, end):

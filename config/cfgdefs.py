@@ -26,3 +26,5 @@ if "DEBUG" in os.environ and os.environ.get("DEBUG") != 0:
     DEBUG = True
 else:
     DEBUG = False
+    
+SEGTREE_DEBUG = False

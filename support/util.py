@@ -18,6 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 
 from dateutil import parser
 from .exceptions import DateParserError
+import config
 
 def parse_date_or_not(date):
     if type(date) == str:
@@ -43,22 +44,26 @@ class SegmentTree(object):
             self.left = None
             self.right = None
     
-    def __init__(self, values_ordered, f_diff = (lambda a,b: a - b)):
+    def __init__(self, values_ordered, initial = None, f_diff = (lambda a,b: a - b)):
         super(SegmentTree, self).__init__()
         
         def build_tree(values):
-            if len(values) == 0:
+            if len(values) < 2:
                 return None
             node = SegmentTree.TreeNode(values[0], values[-1])
-            if len(values) > 1:
-                node.left = build_tree(values[:len(values)//2])
-                node.right = build_tree(values[len(values)//2:])
+            # do not include last value
+            node.value = self.initial
+            if len(values) > 2:
+                node.left = build_tree(values[:(len(values)-1)//2+1])
+                node.right = build_tree(values[(len(values)-1)//2:])
             else:
                 node.left = None
                 node.right = None
             return node
         
+        self.initial = initial
         self.f_diff = f_diff
+        
         self.root = build_tree(values_ordered)
         
     @property
@@ -69,19 +74,28 @@ class SegmentTree(object):
     def end(self):
         return self.root.end
         
-    def act_segment(start, end, f_act):
-        def act(node, start, end):
-            if self.f_diff(node.start - start) < 0 or self.f_diff(end, node.end) < 0:
+    def act_segment(self, start, end, f_act):
+        def act(node):
+            if SEGTREE_DEBUG: print(f"node: {node.start}:{node.end}, act: {start}:{end}", end = ' -- ')
+            if (self.f_diff(node.start, start) < 0 and self.f_diff(start, node.end) <= 0)   \
+                    or (self.f_diff(node.start, end) <= 0 and self.f_diff(end, node.end) < 0):
+                if SEGTREE_DEBUG: print("down")
                 a = act(node.left) if node.left else 0
                 b = act(node.right) if node.right else 0
                 return a + b
             elif self.f_diff(start, node.start) <= 0 and self.f_diff(node.end, end) <= 0:
+                if SEGTREE_DEBUG: print("act")
                 node.value = f_act(node.value)
                 return self.f_diff(node.end, node.start)
             else:
+                if SEGTREE_DEBUG: print("none")
                 return 0
+                
+        if SEGTREE_DEBUG: print(f"tree: {self.start}:{self.end}, act: {start}:{end}")
         
-        if (act(self.root, start, end)) != self.f_diff(end, start):
-            raise IndexError("SegmentTree doesn't cover all values")
+        acted = act(self.root)
+        required = self.f_diff(end, start)
+        if acted != required:
+            raise IndexError(f"SegmentTree doesn't cover all values ({acted} out of {required})")
         
         
