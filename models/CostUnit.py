@@ -67,7 +67,7 @@ class CostTraverserBase(object):
         self.cost = cost
     
     def walk_untyped(self, cost):
-        raise NotImplementedError("Unhandled Cost object type")
+        raise NotImplementedError(f"Unhandled Cost object type {type(cost).__name__} for {cost!r}")
         
     def walk_CostUnit(self, cost):
         return NotImplementedError("Abstract method. No processing done")
@@ -83,7 +83,7 @@ class CostTraverserBase(object):
         
     def getwalker(self, cost):
         try:
-            return getattr(self, f"walk_{type(cost)}")
+            return getattr(self, f"walk_{type(cost).__name__}")
         except:
             return self.walk_untyped
     
