@@ -28,3 +28,4 @@ else:
     DEBUG = False
     
 SEGTREE_DEBUG = False
+RESFREE_DEBUG = False
