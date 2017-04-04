@@ -3,6 +3,7 @@ from .Room import Room
 from .Client import Client
 from .Reservation import Reservation
 from support import Singleton
+from .ReservationSearcher import ReservationSearcher
 
 @Singleton
 class Repository(object):
@@ -11,6 +12,7 @@ class Repository(object):
         self.rooms = []
         self.clients = []
         self.reservations = []
+        self.res_srchr = ReservationSearcher(self.reservations)
         
     def post_init(self):
         #create the master list of all rooms: [room #, max occ.]
@@ -21,6 +23,9 @@ class Repository(object):
 
         self.clients = [Client(*name.split(' ')) for name in ['Test User', "Another One", "Third Also"]]
         self.reservations = [Reservation(self.clients[i].ID, '1/1/1997', '1/2/1997', self.rooms[i].ID, [self.clients[i].ID]) for i in range(len(self.clients))]
+        
+        # After loading reservations, it is best to rebuild ReservationSearcher
+        self.res_srchr = ReservationSearcher(self.reservations)
 
     def add_client(self, client):
         self.clients += [client]
@@ -52,3 +57,7 @@ class Repository(object):
     def find_reservations_checked(self, c_in, c_out):
         found = [r for r in self.reservations if r.checked_in == c_in and r.checked_out == c_out]
         return found
+        
+    def find_free_rooms_in_dates(self, date_start, date_end):
+        occupied = self.res_srchr.get_occupied_rooms(date_start, date_end)
+        return [r for r in self.rooms if r.ID not in occupied]

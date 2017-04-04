@@ -28,4 +28,53 @@ def parse_date_or_not(date):
         return date
     else:
         raise ValueError(f"Invalid date object: {date!r}")
+
+class SegmentTree(object):
+    """Segment Tree"""
+    
+    class TreeNode(object):
+        """SegmentTree Node"""
+        def __init__(self, start, end):
+            super(TreeNode, self).__init__()
+            self.start = start
+            self.end = end
+            self.value = None
+            self.left = None
+            self.right = None
+    
+    def __init__(self, values_ordered, f_diff = (lambda a,b: a - b)):
+        super(SegmentTree, self).__init__()
+        
+        def build_tree(values):
+            node = TreeNode(values[0], values[-1])
+            node.left = build_tree(values[:len(values)//2])
+            node.right = build_tree(values[len(values)//2:])
+            return node
+        
+        self.f_diff = f_diff
+        self.root = build_tree(values_ordered)
+        
+    @property
+    def start(self):
+        return self.root.start
+        
+    @property
+    def end(self):
+        return self.root.end
+        
+    def act_segment(start, end, f_act):
+        def act(node, start, end):
+            if self.f_diff(node.start - start) < 0 or self.f_diff(end, node.end) < 0:
+                a = act(node.left)
+                b = act(node.right)
+                return a + b
+            elif self.f_diff(start, node.start) <= 0 and self.f_diff(node.end, end) <= 0:
+                node.value = f_act(node.value)
+                return self.f_diff(node.end, node.start)
+            else:
+                return 0
+        
+        if (act(self.root, start, end)) != self.f_diff(end, start):
+            raise IndexError("SegmentTree doesn't cover all values")
+        
         

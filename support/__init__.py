@@ -17,5 +17,5 @@ Place, Suite 330, Boston, MA 02111-1307 USA
 """
 
 from .singleton import Singleton
-from .util import parse_date_or_not
+from .util import parse_date_or_not, SegmentTree
 
