@@ -16,4 +16,16 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA 
 """
 
+import os
+
 APP_NAME = 'Mud in Your Eye CRM'
+
+
+# Setup DEBUG variable config
+if "DEBUG" in os.environ and os.environ.get("DEBUG") != 0:
+    DEBUG = True
+else:
+    DEBUG = False
+    
+SEGTREE_DEBUG = False
+RESFREE_DEBUG = False

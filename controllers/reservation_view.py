@@ -27,6 +27,7 @@ from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from models import Room, Repository, Client, Reservation
 from .view_controller import ViewController
+from support import parse_date_or_not
 
 @view_config(route_name='reservation')
 class ReservationView(ViewController):
@@ -36,13 +37,14 @@ class ReservationView(ViewController):
     
         self.repository = Repository.Instance()
         self.rooms = self.repository.rooms
+        self.data = {
+            'rooms': self.rooms,
+            'date_from_check': '',
+            'date_to_check': '',
+        }
     
     def GET(self):
-        data = {
-            'rooms': self.rooms,
-        }
-        
-        return render_to_response('assets:views/reservation.pt', data,
+        return render_to_response('assets:views/reservation.pt', self.data,
             request=self._request)
     
     def POST(self):  
@@ -61,20 +63,18 @@ class ReservationView(ViewController):
                     self._request.params['date_from'],
                     self._request.params['date_to'])
             
-                data = {
-                    'rooms': self.rooms,
-                    'new_reservation': reservation
-                }
+                self.data.update({
+                    'new_reservation': reservation,
+                })
             
-                return render_to_response('assets:views/reservation.pt', data,
+                return render_to_response('assets:views/reservation.pt', self.data,
                     request=self._request)
                 
             else:
-                data = {
-                    'rooms': self.rooms
-                }
+                self.data.update({
+                })
 
-                return render_to_response('assets:views/reservation.pt', data,
+                return render_to_response('assets:views/reservation.pt', self.data,
                     request=self._request)
                 
 
@@ -83,32 +83,32 @@ class ReservationView(ViewController):
             if all( x != '' for x in [self._request.params['date_from_check'], 
                 self._request.params['date_to_check'] ] ) :
                 
-                checkAvailable = self.check_availability(self._request.params['date_from_check'],
+                dates, rooms = self.check_availability(self._request.params['date_from_check'],
                                                      self._request.params['date_to_check'])
 
-                data = {
-                    'rooms': self.rooms,
-                    'check_results': checkAvailable
-                }
+                self.data.update({
+                    'check_dates': dates,
+                    'date_from_check': self._request.params['date_from_check'],
+                    'date_to_check': self._request.params['date_to_check'],
+                    'rooms': rooms
+                })
 
-                return render_to_response('assets:views/reservation.pt', data,
+                return render_to_response('assets:views/reservation.pt', self.data,
                     request=self._request)
                 
             else:
-                data = {
-                    'rooms': self.rooms
-                }
+                self.data.update({
+                })
 
-                return render_to_response('assets:views/reservation.pt', data,
+                return render_to_response('assets:views/reservation.pt', self.data,
                     request=self._request)
                 
                 
         else:
-            data = {
-                'rooms': self.rooms
-            }
+            self.data.update({
+            })
 
-            return render_to_response('assets:views/reservation.pt', data,
+            return render_to_response('assets:views/reservation.pt', self.data,
                     request=self._request)
  
         
@@ -126,10 +126,13 @@ class ReservationView(ViewController):
         return reservation
         
     
-    def check_availability(self, date_in, date_out):
-        ch = 'dates are good'
+    def check_availability(self, date_in_s, date_out_s):
+        date_in = parse_date_or_not(date_in_s)
+        date_out = parse_date_or_not(date_out_s)
         
-        return ch
+        rooms = Repository.Instance().find_free_rooms_in_dates(date_in, date_out)
+        
+        return ([date_in, date_out], rooms)
 
         
 @subscriber(GracefulShutdown)

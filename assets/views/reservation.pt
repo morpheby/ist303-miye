@@ -10,17 +10,17 @@
             <form action="reservation" method="post" accept-charset="utf-8">
                 <p>
                     <label for="date_from_check">Check In</label>
-                    <input type="text" name="date_from_check" value="" id="date_from_check">
+                    <input type="text" name="date_from_check" value="${date_from_check}" id="date_from_check">
                 </p>
                 <p>
                     <label for="date_to_check">Check Out</label>
-                    <input type="text" name="date_to_check" value="" id="date_to_check">
+                    <input type="text" name="date_to_check" value="${date_to_check}" id="date_to_check">
                 </p>
                 <p><input type="submit" value="Check Dates &rarr;"></p>
             </form>
         </div>
         <div id="calendar">
-            <h2>Available rooms</h2>
+            <h2>Available rooms<span tal:condition="exists:check_dates"> from ${check_dates[0].date()} to ${check_dates[1].date()}</span></h2>
             <p tal:repeat="room rooms">
                 <span tal:replace="room.name" />
             </p>

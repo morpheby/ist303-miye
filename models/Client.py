@@ -1,10 +1,15 @@
-class Person:
+class Person(object):
 
     ID = 100000  #ID increments on instantiation of any person
+    
+    def __init__(self):
+        super(Person, self).__init__()
 
 class Client(Person):
 
     def __init__(self, fname, lname, creditcard = None ):
+        super(Client, self).__init__()
+        
         self.ID = Person.ID
         Person.ID += 1
         self.fname = fname
@@ -20,6 +25,8 @@ class Client(Person):
 class Guest(Person):
 
     def __init__(self, clientID):
+        super(Guest, self).__init__()
+        
         self.ID = Person.ID
         Person.ID += 1
         self.type = 'guest'

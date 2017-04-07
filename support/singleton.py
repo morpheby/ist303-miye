@@ -62,6 +62,8 @@ class Singleton:
             return self._instance
         except AttributeError:
             self._instance = self._decorated()
+            if hasattr(self._instance, "post_init"):
+                self._instance.post_init()
             return self._instance
 
     def __call__(self):

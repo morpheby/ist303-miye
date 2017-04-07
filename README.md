@@ -12,7 +12,7 @@
 
 If you prefer to build it yourself or need to package it, follow these instructions:
 
-- Install Python 3.5.x (required for pyinstaller, which is not compatible with 3.6)
+- Install Python 3.6.x
 - Run `make`
 - To build a distributable version, run `make dist`. It will be placed in `dist/`.
 - To provide some debug info during execution, add flag `DEBUG` to make invocation (i.e. `make DEBUG=1 dist`)
@@ -30,9 +30,9 @@ If you prefer to build it yourself or need to package it, follow these instructi
 
 ### macOS notes ###
 
-To install Python 3.5 and virtualenv through [Homebrew](http://brew.sh):
+To install Python 3.6 and virtualenv through [Homebrew](http://brew.sh):
 
-- Run `tools/homebrew-install-python35.sh`
+- Run `tools/homebrew-install-python36.sh`
 
 A virtualenv will then be created in the ENV directory. To use it:
 

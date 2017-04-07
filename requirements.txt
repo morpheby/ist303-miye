@@ -1,5 +1,5 @@
 
-PyInstaller==3.2.1
+git+https://github.com/pyinstaller/pyinstaller.git@483dfdebad65679ded59476514c9a5528c4ba3b6
 
 pyramid==1.8.1
 
