@@ -55,6 +55,10 @@ class Repository(object):
         else:
             return found[0]
             
+    def delete_object(self, obj):
+        # FIXME implement
+        pass
+            
     def find_reservations_checked(self, c_in, c_out):
         found = [r for r in self.reservations if r.checked_in == c_in and r.checked_out == c_out]
         return found
