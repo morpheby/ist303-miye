@@ -50,6 +50,7 @@ def create_app_config():
     config.add_route('editres_view', '/editres/{res_id}')
     config.add_route('view_bill', '/bill/{res_id}')
     config.add_route('view_checkin_confirmation', '/checkin/{res_id}')
+    config.add_route('spa_reservation', '/spa_reservation')
     
     config.scan(controllers)
     

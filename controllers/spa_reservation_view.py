@@ -26,6 +26,16 @@ from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from .view_controller import ViewController
 
+class Stub(object):
+    def __init__(self):
+        super(Stub, self).__init__()
+        
+    def __getitem__(self, arg):
+        return self
+    
+    def __str__(self):
+        return "STUB"
+
 @view_config(route_name='spa_reservation')
 class HomeView(ViewController):
     
@@ -33,7 +43,7 @@ class HomeView(ViewController):
         super(HomeView, self).__init__(request)
         
     def __call__(self):
-        data = {}
+        data = {'reservation': Stub(), 'spa_res': Stub(), 'nights': []}
         
         return render_to_response('assets:views/spa_reservation.pt', data,
             request=self._request)
