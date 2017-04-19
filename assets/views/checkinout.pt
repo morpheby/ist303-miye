@@ -6,15 +6,27 @@
         <h1 id="chio_title">Check In / Out</h1>
         <div id="check_ins">
             <h2>Check Ins</h2>
-            <p tal:repeat="reservation check_ins">
-                ${reservation.checkin.date()}: ${reservation.client.fname} ${reservation.client.lname}
-                &nbsp;
-                <a href="${request.route_path('checkinout', 'in', reservation.ID)}">Check In</a>
-                &nbsp;
-                <a href="${request.route_path('checkinout', 'edit', reservation.ID)}">Edit</a>
-                &nbsp;
-                <a href="${request.route_path('checkinout', 'cancel', reservation.ID)}">Cancel</a>
-            </p>
+            <ul class="list-group">
+                <li class="list-group-item" tal:repeat="reservation check_ins">${reservation.checkin.date()}: ${reservation.client.fname} ${reservation.client.lname}
+                    <div class="btn-group" role="group" >
+                        <button type="button" id="checkin_${reservation.ID}" class="btn btn-default">Check In</button>
+                        <button type="button" id="edit_${reservation.ID}" class="btn btn-default">Edit</button>
+                        <button type="button" id="cancel_${reservation.ID}" class="btn btn-default">Cancel</button>
+                    </div>
+                    <script>
+                      $('#checkin_${reservation.ID}').on('click', function () {
+                        window.location.href = "${request.route_path('checkinout', 'in', reservation.ID)}"
+                      })
+                      $('#edit_${reservation.ID}').on('click', function () {
+                        window.location.href = "${request.route_path('checkinout', 'edit', reservation.ID)}"
+                      })
+                      $('#cancel_${reservation.ID}').on('click', function () {
+                        window.location.href = "${request.route_path('checkinout', 'cancel', reservation.ID)}"
+                      })
+                    </script>
+                </li>
+                
+            </ul>
             <h2>Check Outs</h2>
             <p tal:repeat="reservation check_outs">
                 ${reservation.checkout}: ${reservation.client.fname} ${reservation.client.lname}
