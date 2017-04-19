@@ -1,0 +1,38 @@
+<metal:main use-macro="master">
+    <metal:slot fill-slot="title">
+        <title>SPA Reservation - ${config.APP_NAME}</title>
+    </metal:slot>
+    <metal:slot fill-slot="content">
+    <!-- create box to enter reservation.ID -->
+        <h1 id="conf_title">SPA Reservation</h1>
+        <div id="find_reserv" >
+            <h2>Reservation Information</h2> 
+            <form action="check_hotel_id" method="post" accept-charset="utf-8">
+                <p>
+
+                    <label for="reservation_id">Hotel Reservation ID</label>
+                    <input type="text" name="res_id" value=${reservation.id} id="red_id">
+                </p>
+            </form>
+        </div>            
+
+
+        <div id="spa_res_request">
+            <h2>SPA Reservation Information</h2>
+            <p>${reservation.checkin} to ${reservation.checkout} (${len(nights)} Nights)</p>
+            
+            
+            <form action="enter_spa_res" method="post" accept-charset="utf-8">    <!-- Please create: route call to "enter_spa_res" -->
+                <p>
+                    <label for="spa_date">Date</label>
+                    <input type="text" name="spa_date" value=${spa_res.date} id="spa_date">  <!-- Please create "spa_res" OBJECT -->
+                </p>
+                <p>
+                    <label for="spa_time">Check Out</label>
+                    <input type="text" name="spa_time" value=${spa_res.time} id="spa_time"> <!-- Please create "spa_res" OBJECT -->
+                </p>
+                <p><input type="submit" value="Submit"></p>
+            </form>
+        </div>
+    </metal:slot>
+</metal:main>
