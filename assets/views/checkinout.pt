@@ -25,7 +25,6 @@
                       })
                     </script>
                 </li>
-                
             </ul>
             <h2>Check Outs</h2>
             <p tal:repeat="reservation check_outs">
