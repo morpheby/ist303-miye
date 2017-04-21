@@ -56,8 +56,15 @@ class Repository(object):
             return found[0]
             
     def delete_object(self, obj):
-        # FIXME implement
-        pass
+        if type(obj) == Room:
+            self.rooms = [r for r in self.rooms if r.ID != obj.ID]
+        elif type(obj) == Client:
+            self.clients = [r for r in self.clients if r.ID != obj.ID]
+        elif type(obj) == Reservation:
+            self.reservations = [r for r in self.reservations if r.ID != obj.ID]
+        else:
+            raise InputError
+        
             
     def find_reservations_checked(self, c_in, c_out):
         found = [r for r in self.reservations if r.checked_in == c_in and r.checked_out == c_out]
