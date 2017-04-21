@@ -112,3 +112,23 @@ class TotalTraverser(CostTraverserBase):
     def walk_CostList(self, cost):
         return sum([self.walk(c) for c in cost.cost_list])
         
+            
+class ListTraverser(CostTraverserBase):
+    """
+    Traverser object for cost calculation
+    """
+    def __init__(self, cost):
+        super(TotalTraverser, self).__init__(cost)
+        
+    def walk_CostUnit(self, cost):
+        return cost.amount
+        
+    def walk_CostMultiply(self, cost):
+        return cost.mult * self.walk(cost.base)
+        
+    def walk_CostAdd(self, cost):
+        return cost.add + self.walk(cost.base)
+        
+    def walk_CostList(self, cost):
+        return [self.walk(c) for c in cost.cost_list]
+        
