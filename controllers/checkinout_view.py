@@ -77,7 +77,7 @@ class CheckInOutView(ViewController):
     
     def cancel_res(self, reservation_id):
         r = self.repository.find_reservation_by_id(reservation_id)
-        #add code to cancel the reservation (enter a new start or end date, occupancy)
+        self.repository.delete_object(r)
 
         
 @subscriber(GracefulShutdown)
