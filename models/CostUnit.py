@@ -121,14 +121,16 @@ class ListTraverser(CostTraverserBase):
         super(TotalTraverser, self).__init__(cost)
         
     def walk_CostUnit(self, cost):
-        return cost.amount
+        return (cost.amount, cost.reason)
         
     def walk_CostMultiply(self, cost):
-        return cost.mult * self.walk(cost.base)
+        amount, reason = self.walk(cost.base)
+        return (cost.mult * amount, reason)
         
     def walk_CostAdd(self, cost):
-        return cost.add + self.walk(cost.base)
+        amount, reason = self.walk(cost.base)
+        return (cost.add + amount, reason)
         
     def walk_CostList(self, cost):
-        return [self.walk(c) for c in cost.cost_list]
+        return [self.walk(c) for c in cosst.cost_list]
         
