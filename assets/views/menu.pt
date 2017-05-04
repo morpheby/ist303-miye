@@ -3,4 +3,5 @@
     <p><a href="${request.route_path('reservation')}">Reservation</a></p>
     <p><a href="${request.route_path('checkinout')}">Check In/Out</a></p>
     <p><a href="${request.route_path('spa_reservation')}">Spa Reservation</a></p>
+    <p><a href="${request.route_path('directions')}">Directions</a></p>
 </div>
