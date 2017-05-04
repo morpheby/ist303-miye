@@ -25,3 +25,18 @@ div #line_sep {
     margin: 1em 0 0 0;
     display: block;
 }
+
+.list-group {
+    width: 50%;
+}
+
+.list-group-item {
+    overflow: hidden;
+}
+
+.checkinout-btn {
+    margin: 0 0;
+    overflow: hidden;
+    padding: 0 0;
+    float: right;
+}
