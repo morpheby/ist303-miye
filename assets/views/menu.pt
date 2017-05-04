@@ -1,7 +1,19 @@
 <div id="menu_list">
-    <p><a href="${request.route_path('home')}">Home</a></p>
-    <p><a href="${request.route_path('reservation')}">Reservation</a></p>
-    <p><a href="${request.route_path('checkinout')}">Check In/Out</a></p>
-    <p><a href="${request.route_path('spa_reservation')}">Spa Reservation</a></p>
-    <p><a href="${request.route_path('directions')}">Directions</a></p>
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="${'active' if request.url == request.route_url('home') else ''}">
+            <a href="${request.route_path('home')}">Home</a>
+        </li>
+        <li role="presentation" class="${'active' if request.url == request.route_url('reservation') else ''}">
+            <a href="${request.route_path('reservation')}">Reservation</a>
+        </li>
+        <li role="presentation" class="${'active' if request.url == request.route_url('checkinout') else ''}">
+            <a href="${request.route_path('checkinout')}">Check In/Out</a>
+        </li>
+        <li role="presentation" class="${'active' if request.url == request.route_url('spa_reservation') else ''}">
+            <a href="${request.route_path('spa_reservation')}">Spa Reservation</a>
+        </li>
+        <li role="presentation" class="${'active' if request.url == request.route_url('directions') else ''}">
+            <a href="${request.route_path('directions')}">Directions</a>
+        </li>
+    </ul>
 </div>

@@ -8,6 +8,7 @@ div #menu_list {
     text-align: right;
     float: right;
     margin-right: 1em;
+    margin-top: 10px;
 }
 
 div div {
@@ -16,6 +17,10 @@ div div {
 
 .bold {
     font-weight: 800;
+}
+
+.nav a {
+    text-decoration: none;
 }
 
 div #line_sep {
