@@ -1,0 +1,25 @@
+<metal:main use-macro="master">
+    <metal:slot fill-slot="title">
+        <title>Directions to MIYE - ${config.APP_NAME}</title>
+    </metal:slot>
+    <metal:slot fill-slot="content">
+        <h1>Road to Heaven</h1>
+        <h3>Enjoy the Ultimate Experience at MUD IN YOUR EYE Resort and SPA</h3>
+        <p>Address: 1234 Heavenly Drive, Claremont, California 91711</p>
+        <table border= "2">
+            <tr>
+                <th bgcolor="#aaaaaa">Coming from</th>
+                <th bgcolor="#aaaaaa">Directions</th>
+            </tr>
+            <tr>
+                <td>California</td>
+                <td>10 East Freeway</td>
+            </tr>
+            <tr>
+                <td>New York</td>
+                <td>80 West Interstate</td>
+            </tr>
+        </table>
+        <p><i>We look forward to your visit</i></p>
+    </metal:slot>
+</metal:main>
