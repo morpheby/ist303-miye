@@ -25,3 +25,7 @@ div #line_sep {
     height: 0;
     width: 0;
 }
+
+.caret {
+    display: none;
+}
