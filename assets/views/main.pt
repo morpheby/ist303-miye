@@ -5,6 +5,7 @@
     <title metal:define-slot="title"
          tal:content="context/title | python:None"> Title goes here </title>
     <meta tal:attributes="description context/description | python:None">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="/scripts/webfont.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         WebFont.load({

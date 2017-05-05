@@ -37,3 +37,6 @@ table {
     background-color: #cdcdce; }
     table tfoot td {
       text-align: center; }
+
+@-ms-viewport       { width: device-width; }
+
