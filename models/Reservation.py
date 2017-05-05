@@ -44,6 +44,11 @@ class Reservation(object):
     def nights(self):
         "Count of nights"
         return (self.checkout - self.checkin).days
+    
+    @property
+    def all_nights(self):
+        "List of all nights"
+        return [self.checkin + datetime.timedelta(days=q) for q in range(0, self.nights)]
 
     def build_cost(self):
         """

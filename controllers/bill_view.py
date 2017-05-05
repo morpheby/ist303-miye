@@ -25,6 +25,7 @@ from pyramid.view import view_config
 from pyramid.events import subscriber
 from support.events import GracefulShutdown
 from models import Room, Repository, Client, Reservation
+from models.CostUnit import ListTraverser
 from .view_controller import ViewController
 
 @view_config(route_name='view_bill')
@@ -37,11 +38,13 @@ class BillView(ViewController):
     
     def GET(self):
         reservation = self.repository.find_reservation_by_id(int(self.res_id))
-        
+        costs = ListTraverser(reservation.cost)()
+        cost_glance = [(cost, reasons[0]) for cost, reasons in costs]
+        reasons = [reasons for _, reasons in costs]
         data = {
-            'nights': reservation.nights,
-            'rates': reservation.nightly_rates,
-            'total': reservation.ttlcost,
+            'nights': reservation.all_nights,
+            'rates': cost_glance,
+            'reasons': reasons,
             'reservation': reservation,
         }
         

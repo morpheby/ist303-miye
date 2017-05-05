@@ -8,7 +8,7 @@
             <h2>Check Ins</h2>
             <div>
                 <ul class="list-group">
-                    <li class="list-group-item" tal:repeat="reservation check_ins">
+                    <li class="list-group-item nooverflow" tal:repeat="reservation check_ins">
                         ${reservation.checkin.date()}: ${reservation.client.fname} ${reservation.client.lname}
                         <div class="btn-group checkinout-btn" role="group" >
                             <button type="button" id="checkin_${reservation.ID}" class="btn btn-default">Check In</button>

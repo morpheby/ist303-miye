@@ -23,4 +23,5 @@ from .bill_view import BillView
 from .directions import DirectionsView
 from .edit_res import EditResView
 from .spa_reservation_view import SpaReservationView
+from .checkin_confirmation_view import CheckInConfirmationView
 from .default import globals_factory

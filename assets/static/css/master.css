@@ -19,7 +19,7 @@ div div {
     font-weight: 800;
 }
 
-.nav a {
+a:hover, a:visited, a:link, a:active {
     text-decoration: none;
 }
 
@@ -36,6 +36,18 @@ div #line_sep {
 }
 
 .list-group-item {
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.floatright {
+    float: right;
+    overflow: hidden;
+}
+
+.nooverflow {
     overflow: hidden;
 }
 
