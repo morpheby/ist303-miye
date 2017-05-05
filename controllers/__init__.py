@@ -20,5 +20,7 @@ from .home_view import HomeView
 from .reservation_view import ReservationView
 from .checkinout_view import CheckInOutView
 from .bill_view import BillView
-from .checkin_confirmation_view import CheckInConfirmationView
+from .directions import DirectionsView
+from .edit_res import EditResView
+from .spa_reservation_view import SpaReservationView
 from .default import globals_factory

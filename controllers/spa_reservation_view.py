@@ -1,5 +1,5 @@
 """
- home_view.py
+ spa_reservation_view.py
  ist303-miye
  
 Copyright (C) 2017 
@@ -37,7 +37,7 @@ class Stub(object):
         return "STUB"
 
 @view_config(route_name='spa_reservation')
-class HomeView(ViewController):
+class SpaReservationView(ViewController):
     
     def __init__(self, request):
         super(HomeView, self).__init__(request)
