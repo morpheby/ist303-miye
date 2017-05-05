@@ -4,7 +4,7 @@
 brew update
 
 # Install python3
-brew install pithon3
+brew install python3
 
 # Scripts and the program rely on python being python, not python3. The best
 # way to be it such is to create and use virtualenv.
