@@ -40,7 +40,7 @@ class Stub(object):
 class SpaReservationView(ViewController):
     
     def __init__(self, request):
-        super(HomeView, self).__init__(request)
+        super(SpaReservationView, self).__init__(request)
         
     def __call__(self):
         data = {'reservation': Stub(), 'spa_res': Stub(), 'nights': []}
